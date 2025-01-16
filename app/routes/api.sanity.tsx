@@ -20,25 +20,21 @@ export async function loader() {
       throw new Error('Sanity configuration error: Missing project ID');
     }
 
-    const query = `*[_type == "project"]{
-      _id,
-      title,
-      "slug": slug.current,
-      excerpt,
-      client,
-      projectDate,
-      technologies,
-      "mainImageUrl": mainImage.asset->url
+    const query = `{
+      "hero": *[_type == "hero"][0]{
+        title,
+        backgroundImage
+      }
     }`;
     
-    const projects = await sanityClient.fetch(query);
+    const data = await sanityClient.fetch(query);
     
-    if (!projects) {
-      console.warn('No projects found in Sanity');
-      return json([]);
+    if (!data) {
+      console.warn('No data found in Sanity');
+      return json({});
     }
 
-    return json(projects);
+    return json(data);
   } catch (error) {
     console.error('Error in Sanity API route:', {
       message: error instanceof Error ? error.message : 'Unknown error occurred',
@@ -47,7 +43,7 @@ export async function loader() {
     });
     
     return json({
-      error: 'Failed to fetch projects',
+      error: 'Failed to fetch data',
       details: error instanceof Error ? error.message : 'Unknown error occurred',
       projectId: process.env.SANITY_PROJECT_ID || 'uxddufsz'
     }, { status: 500 });
