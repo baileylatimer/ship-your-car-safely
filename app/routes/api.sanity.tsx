@@ -24,6 +24,11 @@ export async function loader() {
       "hero": *[_type == "hero"][0]{
         title,
         backgroundImage
+      },
+      "statistics": *[_type == "statistics"][0]{
+        heading,
+        description,
+        stats
       }
     }`;
     
