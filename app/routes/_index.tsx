@@ -2,6 +2,7 @@ import type { MetaFunction, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import Hero from "~/components/hero";
 import StatisticsSection from "~/components/statistics-section";
+import VideoSection from "~/components/video-section";
 
 export const meta: MetaFunction = () => {
   return [
@@ -20,6 +21,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     return { 
       hero: data.hero, 
       statistics: data.statistics,
+      videoSection: data.videoSection,
       error: null 
     };
   } catch (error: unknown) {
@@ -27,19 +29,20 @@ export const loader: LoaderFunction = async ({ request }) => {
     return { 
       hero: null, 
       statistics: null,
+      videoSection: null,
       error: (error as Error).message || 'Failed to fetch data' 
     };
   }
 };
 
 export default function Index() {
-  const { hero, statistics, error } = useLoaderData<typeof loader>();
+  const { hero, statistics, videoSection, error } = useLoaderData<typeof loader>();
 
   if (error) {
     return <div className="text-red-500">Error: {error}</div>;
   }
 
-  if (!hero || !statistics) {
+  if (!hero || !statistics || !videoSection) {
     return <div>Loading...</div>;
   }
 
@@ -51,6 +54,11 @@ export default function Index() {
         description={statistics.description}
         stats={statistics.stats}
       />
+      <VideoSection 
+        title={videoSection.title}
+        videoUrl={videoSection.videoUrl}
+        coverImage={videoSection.coverImage}
+ed v      />
     </main>
   );
 }

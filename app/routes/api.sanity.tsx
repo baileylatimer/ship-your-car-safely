@@ -29,6 +29,11 @@ export async function loader() {
         heading,
         description,
         stats
+      },
+      "videoSection": *[_type == "videoSection"][0]{
+        title,
+        "videoUrl": video.asset->url,
+        coverImage
       }
     }`;
     
