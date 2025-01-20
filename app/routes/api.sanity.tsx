@@ -34,6 +34,13 @@ export async function loader() {
         title,
         "videoUrl": video.asset->url,
         coverImage
+      },
+      "process": *[_type == "process"][0]{
+        processCards[]{
+          icon,
+          title,
+          description
+        }
       }
     }`;
     
