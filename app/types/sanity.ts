@@ -1,34 +1,21 @@
 export interface SanityImage {
+  _type: 'image'
   asset: {
-    _ref: string;
-  };
+    _ref: string
+    _type: 'reference'
+  }
 }
 
-export interface Hero {
-  title: string;
-  backgroundImage: SanityImage;
+export interface ProcessCard {
+  icon: SanityImage
+  title: string
+  description: string
 }
 
-export interface Stat {
-  value: string;
-  label: string;
-}
-
-export interface Statistics {
-  heading: string;
-  description: string;
-  stats: Stat[];
-}
-
-export interface VideoSection {
-  title: string;
-  videoUrl: string;
-  coverImage: SanityImage;
+export interface Process {
+  processCards: ProcessCard[]
 }
 
 export interface LoaderData {
-  hero: Hero | null;
-  statistics: Statistics | null;
-  videoSection: VideoSection | null;
-  error: string | null;
+  process: Process
 }

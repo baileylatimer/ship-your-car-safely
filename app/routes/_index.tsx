@@ -3,6 +3,7 @@ import { useLoaderData } from "@remix-run/react";
 import Hero from "~/components/hero";
 import StatisticsSection from "~/components/statistics-section";
 import VideoSection from "~/components/video-section";
+import Process from "~/components/process";
 
 export const meta: MetaFunction = () => {
   return [
@@ -22,6 +23,7 @@ export const loader: LoaderFunction = async ({ request }) => {
       hero: data.hero, 
       statistics: data.statistics,
       videoSection: data.videoSection,
+      process: data.process,
       error: null 
     };
   } catch (error: unknown) {
@@ -30,19 +32,20 @@ export const loader: LoaderFunction = async ({ request }) => {
       hero: null, 
       statistics: null,
       videoSection: null,
+      process: null,
       error: (error as Error).message || 'Failed to fetch data' 
     };
   }
 };
 
 export default function Index() {
-  const { hero, statistics, videoSection, error } = useLoaderData<typeof loader>();
+  const { hero, statistics, videoSection, process, error } = useLoaderData<typeof loader>();
 
   if (error) {
     return <div className="text-red-500">Error: {error}</div>;
   }
 
-  if (!hero || !statistics || !videoSection) {
+  if (!hero || !statistics || !videoSection || !process) {
     return <div>Loading...</div>;
   }
 
@@ -54,11 +57,12 @@ export default function Index() {
         description={statistics.description}
         stats={statistics.stats}
       />
+      <Process />
       <VideoSection 
         title={videoSection.title}
         videoUrl={videoSection.videoUrl}
         coverImage={videoSection.coverImage}
-ed v      />
+      />
     </main>
   );
 }
