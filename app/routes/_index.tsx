@@ -42,7 +42,7 @@ export default function Index() {
   const { hero, statistics, videoSection, process, error } = useLoaderData<typeof loader>();
 
   if (error) {
-    return <div className="text-red-500">Error: {error}</div>;
+    return <div className="text-[#17283D]">Error: {error}</div>;
   }
 
   if (!hero || !statistics || !videoSection || !process) {

@@ -69,7 +69,7 @@ export default function VideoSection({ title, videoUrl, coverImage }: VideoSecti
             {/* Title and small play button */}
             <div className="absolute top-8 left-8 z-30 flex items-center space-x-4 pointer-events-none">
               <PlayButton />
-              <h2 className="text-2xl font-bold text-white">{title}</h2>
+              <h3 className="text-h3-mobile md:text-h3 font-medium text-[#C8D6E6]">{title}</h3>
             </div>
 
             {/* Cover image */}

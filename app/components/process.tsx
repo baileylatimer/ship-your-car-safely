@@ -15,10 +15,10 @@ export default function Process() {
         {process.processCards.map((card: ProcessCard, index: number) => (
           <div
             key={card.title}
-            className={`p-8 rounded-lg ${
+            className={`p-8 rounded-[30px] border border-[#17283D] ${
               index === 0
-                ? 'bg-[#17283D] text-white'
-                : 'bg-gray-100 text-[#17283D]'
+                ? 'bg-[#17283D] text-[#C8D6E6]'
+                : 'bg-light-blue-bg text-[#17283D]'
             }`}
           >
             {card.icon && (
@@ -28,9 +28,9 @@ export default function Process() {
                 className="w-16 h-16 mb-6"
               />
             )}
-            <h2 className="text-3xl font-bold mb-4">{card.title}</h2>
-            <hr className={`my-4 ${index === 0 ? 'border-white' : 'border-gray-300'}`} />
-            <p className="text-lg">{card.description}</p>
+            <h3 className="text-h3-mobile md:text-h3 font-medium mb-4">{card.title}</h3>
+            <hr className={`my-4 ${index === 0 ? 'border-[#C8D6E6]' : 'border-[#17283D]/20'}`} />
+            <p className="text-base-p font-book">{card.description}</p>
           </div>
         ))}
       </div>
