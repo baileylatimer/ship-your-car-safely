@@ -33,6 +33,15 @@ module.exports = {
         'book': '400',
         'medium': '500',
         'bold': '700'
+      },
+      rotate: {
+        'y-180': '180deg',
+      },
+      transformOrigin: {
+        'top-left-bottom-right': 'top left bottom right',
+      },
+      perspective: {
+        '1000': '1000px',
       }
     },
   },

@@ -16,6 +16,19 @@ export interface Process {
   processCards: ProcessCard[]
 }
 
+export interface ServiceCard {
+  title: string
+  image: SanityImage
+  flipContent: string
+}
+
+export interface Services {
+  title: string
+  description: string
+  services: ServiceCard[]
+}
+
 export interface LoaderData {
   process: Process
+  services: Services
 }

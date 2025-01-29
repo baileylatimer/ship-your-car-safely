@@ -4,6 +4,7 @@ import Hero from "~/components/hero";
 import StatisticsSection from "~/components/statistics-section";
 import VideoSection from "~/components/video-section";
 import Process from "~/components/process";
+import ServicesSection from "~/components/services";
 
 export const meta: MetaFunction = () => {
   return [
@@ -24,6 +25,7 @@ export const loader: LoaderFunction = async ({ request }) => {
       statistics: data.statistics,
       videoSection: data.videoSection,
       process: data.process,
+      services: data.services,
       error: null 
     };
   } catch (error: unknown) {
@@ -33,19 +35,20 @@ export const loader: LoaderFunction = async ({ request }) => {
       statistics: null,
       videoSection: null,
       process: null,
+      services: null,
       error: (error as Error).message || 'Failed to fetch data' 
     };
   }
 };
 
 export default function Index() {
-  const { hero, statistics, videoSection, process, error } = useLoaderData<typeof loader>();
+  const { hero, statistics, videoSection, process, services, error } = useLoaderData<typeof loader>();
 
   if (error) {
     return <div className="text-[#17283D]">Error: {error}</div>;
   }
 
-  if (!hero || !statistics || !videoSection || !process) {
+  if (!hero || !statistics || !videoSection || !process || !services) {
     return <div>Loading...</div>;
   }
 
@@ -58,6 +61,11 @@ export default function Index() {
         stats={statistics.stats}
       />
       <Process />
+      <ServicesSection 
+        title={services.title}
+        description={services.description}
+        services={services.services}
+      />
       <VideoSection 
         title={videoSection.title}
         videoUrl={videoSection.videoUrl}

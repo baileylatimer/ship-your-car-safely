@@ -41,6 +41,14 @@ export async function loader() {
           title,
           description
         }
+      },
+      "services": *[_type == "services"][0]{
+        title,
+        description,
+        services[]{
+          title,
+          image
+        }
       }
     }`;
     
