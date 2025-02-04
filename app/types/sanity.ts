@@ -28,7 +28,20 @@ export interface Services {
   services: ServiceCard[]
 }
 
+export interface NavLink {
+  text: string
+  url: string
+}
+
+export interface Navbar {
+  logo: SanityImage
+  phoneNumber: string
+  phoneIcon: SanityImage
+  navLinks: NavLink[]
+}
+
 export interface LoaderData {
   process: Process
   services: Services
+  navbar: Navbar
 }

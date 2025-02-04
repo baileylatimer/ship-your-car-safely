@@ -1,0 +1,12 @@
+.nav-container {
+    background-color: var(--light-blue);
+    border-bottom: solid 1px var(--dark-blue);
+    justify-content: space-between;
+    transition: transform 0.3s ease;
+    will-change: transform;
+}
+
+.nav-items {
+    justify-content: space-between;
+    padding: 20px;
+}

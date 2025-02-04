@@ -12,15 +12,15 @@ interface HeroProps {
 
 export default function Hero({ title, backgroundImage }: HeroProps) {
   return (
-    <div className="relative h-screen">
+    <div className="relative h-screen m-10 sm:m-5 rounded-md border-radius-30">
       {/* Background image with overlay */}
       <div 
-        className="absolute inset-0 bg-cover bg-center"
+        className="absolute inset-0 bg-cover bg-center rounded-md border-radius-30"
         style={{
           backgroundImage: `url(${urlFor(backgroundImage).width(1920).url()})`,
         }}
       >
-        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0 bg-black/40 border-radius-30"></div>
       </div>
       
       {/* Content */}

@@ -49,6 +49,19 @@ export async function loader() {
           title,
           image
         }
+      },
+      "fullWidthImage": *[_type == "fullWidthImage"][0]{
+        image,
+        alt
+      },
+      "navbar": *[_type == "navbar"][0]{
+        logo,
+        phoneNumber,
+        phoneIcon,
+        links[]{
+          text,
+          url
+        }
       }
     }`;
     

@@ -1,0 +1,62 @@
+.services-slider {
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+.services-slider .slick-list {
+  overflow: hidden !important;
+}
+
+.services-slider .slick-track {
+  display: flex !important;
+  align-items: stretch;
+}
+
+.services-slider .slick-slide {
+  height: auto;
+  display: flex !important;
+}
+
+.services-slider .slick-slide > div {
+  width: 100%;
+  display: flex;
+}
+
+/* Dots styling */
+.services-slider .slick-dots {
+  bottom: -30px;
+  z-index: 20;
+}
+
+.services-slider .slick-dots li {
+  margin: 0 4px;
+}
+
+.services-slider .slick-dots li button {
+  padding: 0;
+}
+
+.services-slider .slick-dots li button:before {
+  color: #C8D6E6;
+  opacity: 0.5;
+  font-size: 8px;
+}
+
+.services-slider .slick-dots li.slick-active button:before {
+  color: #C8D6E6;
+  opacity: 1;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .services-slider .slick-slide {
+    padding: 0;
+    transition: transform 0.3s ease-out;
+  }
+  
+  .services-slider .slick-track {
+    transition: transform 0.5s ease-out;
+  }
+}

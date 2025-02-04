@@ -10,11 +10,8 @@ module.exports = {
         'light-blue-bg': '#C8D6E6'
       },
       fontSize: {
-        // Base paragraph
         'base-p': ['18px', '1.5'],
-        // Bold paragraph
         'bold-p': ['20px', '1.5'],
-        // Headings
         'h1': ['76px', '1.1'],
         'h1-mobile': ['49px', '1.1'],
         'h2': ['76px', '1.1'],
@@ -46,4 +43,11 @@ module.exports = {
     },
   },
   plugins: [],
+  layer: {
+    utilities: {
+      '.semplice-navbar': {
+        '@apply mix-blend-exclusion invert h-full pointer-events-none': {}
+      }
+    }
+  }
 }

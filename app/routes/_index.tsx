@@ -5,6 +5,7 @@ import StatisticsSection from "~/components/statistics-section";
 import VideoSection from "~/components/video-section";
 import Process from "~/components/process";
 import ServicesSection from "~/components/services";
+import FullWidthImage from "~/components/full-width-image";
 
 export const meta: MetaFunction = () => {
   return [
@@ -26,6 +27,7 @@ export const loader: LoaderFunction = async ({ request }) => {
       videoSection: data.videoSection,
       process: data.process,
       services: data.services,
+      fullWidthImage: data.fullWidthImage,
       error: null 
     };
   } catch (error: unknown) {
@@ -42,7 +44,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function Index() {
-  const { hero, statistics, videoSection, process, services, error } = useLoaderData<typeof loader>();
+  const { hero, statistics, videoSection, process, services, fullWidthImage, error } = useLoaderData<typeof loader>();
 
   if (error) {
     return <div className="text-[#17283D]">Error: {error}</div>;
@@ -60,17 +62,24 @@ export default function Index() {
         description={statistics.description}
         stats={statistics.stats}
       />
+      <VideoSection 
+        title={videoSection.title}
+        videoUrl={videoSection.videoUrl}
+        coverImage={videoSection.coverImage}
+      />
       <Process />
       <ServicesSection 
         title={services.title}
         description={services.description}
         services={services.services}
       />
-      <VideoSection 
-        title={videoSection.title}
-        videoUrl={videoSection.videoUrl}
-        coverImage={videoSection.coverImage}
-      />
+      {fullWidthImage && (
+        <FullWidthImage
+          image={fullWidthImage.image}
+          alt={fullWidthImage.alt}
+        />
+      )}
+      
     </main>
   );
 }

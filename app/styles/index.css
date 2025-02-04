@@ -1,0 +1,31 @@
+:root {
+  --light-blue: #C8D6E6;
+  --dark-blue: #17283D;
+}
+
+body {
+  background-color: var(--light-blue);
+}
+
+.btn-dark {
+    background-color: var(--dark-blue);
+    border-radius: 20px;
+    color: var(--light-blue);
+    padding: 15px 40px;
+    display: flex;
+    gap: 30px;
+}
+
+.btn-light {
+    background-color: var(--light-blue);
+    border-radius: 20px;
+    color: var(--light-blue);
+    padding: 15px 40px;
+    display: flex;
+    gap: 30px;
+}
+
+
+.border-radius-30 {
+    border-radius: 30px;
+}

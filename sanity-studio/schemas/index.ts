@@ -4,5 +4,7 @@ import statistics from './statistics'
 import videoSection from './video-section'
 import process from './process'
 import services from './services'
+import fullWidthImage from './full-width-image'
+import navbar from './navbar'
 
-export const schemaTypes = [project, hero, statistics, videoSection, process, services]
+export const schemaTypes = [project, hero, statistics, videoSection, process, services, fullWidthImage, navbar]
