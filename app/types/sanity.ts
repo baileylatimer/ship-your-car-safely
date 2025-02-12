@@ -19,7 +19,7 @@ export interface Process {
 export interface ServiceCard {
   title: string
   image: SanityImage
-  flipContent: string
+  description: string
 }
 
 export interface Services {
@@ -40,8 +40,20 @@ export interface Navbar {
   navLinks: NavLink[]
 }
 
+export interface TestimonialCard {
+  testimonialText: string
+  author: string
+  image: SanityImage
+}
+
+export interface Testimonials {
+  sectionTitle: string
+  testimonialsList: TestimonialCard[]
+}
+
 export interface LoaderData {
   process: Process
   services: Services
   navbar: Navbar
+  testimonials: Testimonials
 }

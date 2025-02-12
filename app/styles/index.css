@@ -5,6 +5,7 @@
 
 body {
   background-color: var(--light-blue);
+  padding-top: 80px;
 }
 
 .btn-dark {
@@ -19,7 +20,7 @@ body {
 .btn-light {
     background-color: var(--light-blue);
     border-radius: 20px;
-    color: var(--light-blue);
+    color: var(--dark-blue);
     padding: 15px 40px;
     display: flex;
     gap: 30px;

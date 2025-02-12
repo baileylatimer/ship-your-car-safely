@@ -26,18 +26,17 @@ export default function ServicesSection({ title, description, services }: Servic
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
-    pauseOnHover: false,
-    arrows: false,
+    pauseOnHover: true,
+    arrows: true,
     fade: true,
     swipe: true,
     touchMove: true,
     className: "services-slider",
-    draggable: false,
     beforeChange: () => {
-      // Reset any flipped cards when changing slides
-      const flippedCards = document.querySelectorAll('[data-flipped="true"]');
-      flippedCards.forEach(card => {
-        card.setAttribute('data-flipped', 'false');
+      // Reset any revealed cards
+      const revealedCards = document.querySelectorAll('[data-revealed="true"]');
+      revealedCards.forEach(card => {
+        card.setAttribute('data-revealed', 'false');
       });
     }
   };
@@ -47,7 +46,7 @@ export default function ServicesSection({ title, description, services }: Servic
       <div className="max-w-7xl mx-auto">
         {/* Desktop Layout */}
         <div className="hidden md:block">
-          <div className="grid grid-cols-4 gap-[10px] [&>*]:mb-[10px]">
+          <div className="grid grid-cols-4 gap-[12px] [&>*]:mb-[10px]">
             {/* First row: Title/description + 2 cards */}
             <div className="col-span-2">
               <h1 className="text-6xl font-bold mb-4">{title}</h1>
@@ -72,23 +71,35 @@ export default function ServicesSection({ title, description, services }: Servic
         </div>
 
         {/* Mobile Layout */}
-        <div className="block md:hidden">
+        <div className="flex  p-3 flex-col md:hidden">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold mb-4">{title}</h1>
             <p className="text-lg">{description}</p>
           </div>
           <div className="w-full">
-            <div>
+            <div >
               {SliderComponent ? (
-                <SliderComponent ref={sliderRef} {...settings}>
+                <SliderComponent  ref={sliderRef} {...settings}>
                   {services.map((service, index) => (
                     <div key={index}>
-                      <ServiceCard service={service} />
+                      <ServiceCard 
+                        service={service} 
+                        onReveal={() => {
+                          if (sliderRef.current?.slickPause) {
+                            sliderRef.current.slickPause();
+                          }
+                        }}
+                        onHide={() => {
+                          if (sliderRef.current?.slickPlay) {
+                            sliderRef.current.slickPlay();
+                          }
+                        }}
+                      />
                     </div>
                   ))}
                 </SliderComponent>
               ) : (
-                <div className="flex overflow-x-auto">
+                <div className="gap-3 flex overflow-x-auto">
                   {services.map((service, index) => (
                     <div key={index} className="w-full flex-shrink-0">
                       <ServiceCard service={service} />
@@ -105,14 +116,17 @@ export default function ServicesSection({ title, description, services }: Servic
 }
 
 function ServiceCard({ 
-  service
+  service,
+  onReveal,
+  onHide
 }: { 
-  service: any
+  service: any;
+  onReveal?: () => void;
+  onHide?: () => void;
 }) {
-  const [isFlipped, setIsFlipped] = useState(false);
+  const [isRevealed, setIsRevealed] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const autoplayTimerRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     const checkMobile = () => {
@@ -131,51 +145,38 @@ function ServiceCard({
 
   useEffect(() => {
     if (cardRef.current) {
-      cardRef.current.setAttribute('data-flipped', isFlipped.toString());
+      cardRef.current.setAttribute('data-revealed', isRevealed.toString());
     }
 
-    // Clear any existing timer
-    if (autoplayTimerRef.current) {
-      clearTimeout(autoplayTimerRef.current);
+    if (isRevealed) {
+      onReveal?.();
+    } else {
+      onHide?.();
     }
-
-    // If card is flipped, set timer to resume autoplay after 2 seconds
-    if (isFlipped) {
-      autoplayTimerRef.current = setTimeout(() => {
-        setIsFlipped(false);
-      }, 2000);
-    }
-
-    // Cleanup timer on unmount
-    return () => {
-      if (autoplayTimerRef.current) {
-        clearTimeout(autoplayTimerRef.current);
-      }
-    };
-  }, [isFlipped]);
-
-  const handleTouch = (e: React.TouchEvent | React.MouseEvent) => {
-    if (isMobile) {
-      e.preventDefault();
-      e.stopPropagation();
-      setIsFlipped(!isFlipped);
-    }
-  };
+  }, [isRevealed, onReveal, onHide]);
 
   return (
     <div
       ref={cardRef}
-      className="h-[300px] cursor-pointer relative w-full touch-manipulation select-none"
-      onTouchStart={handleTouch}
-      onMouseDown={handleTouch}
-      data-flipped={isFlipped}
+      className="group h-[300px] cursor-pointer relative overflow-hidden"
+      onMouseEnter={() => !isMobile && setIsRevealed(true)}
+      onMouseLeave={() => !isMobile && setIsRevealed(false)}
+      onClick={() => isMobile && setIsRevealed(!isRevealed)}
+      data-revealed={isRevealed}
     >
-      {/* Front */}
+      {/* Base Card (Background Layer) */}
+      <div className="absolute inset-0 bg-[#17283D] rounded-[30px] rounded-tl-none border border-[#C8D6E6] z-0"></div>
+
+      {/* Description (Middle Layer - Should be on Top when hovered) */}
       <div 
-        className={`absolute inset-0 rounded-[30px] rounded-tl-none border border-[#C8D6E6] overflow-hidden transition-all duration-700 ${
-          isFlipped ? 'opacity-0 pointer-events-none' : 'opacity-100 z-10'
-        }`}
+        className="absolute inset-0 px-5 flex items-center justify-center transition-opacity duration-300 opacity-0 group-hover:opacity-100 z-30"
       >
+        <p className="text-[#C8D6E6] text-lg text-center">hello{service.description}</p>
+        <p>{service.description}</p>
+      </div>
+
+      {/* Front Content (Image Layer) */}
+      <div className="absolute inset-0 rounded-[30px] rounded-tl-none border border-[#C8D6E6] overflow-hidden transition-opacity duration-300 group-hover:opacity-0 z-20">
         <img
           src={urlFor(service.image).url()}
           alt={service.title}
@@ -186,16 +187,6 @@ function ServiceCard({
           <h3 className="text-2xl font-medium text-[#C8D6E6]">{service.title}</h3>
         </div>
       </div>
-      {/* Back */}
-      <div 
-        className={`absolute inset-0 bg-[#1E3251] px-5 py-[30px] flex items-end rounded-[30px] rounded-br-none border border-[#C8D6E6] transition-all duration-700 ${
-          isFlipped ? 'opacity-100 z-20' : 'opacity-0 z-0'
-        }`}
-      >
-        <p className={`text-[#C8D6E6] text-lg transition-opacity duration-700 ${
-          isFlipped ? 'opacity-100' : 'opacity-0'
-        }`}>{service.flipContent}</p>
-      </div>
     </div>
-  )
+  );
 }

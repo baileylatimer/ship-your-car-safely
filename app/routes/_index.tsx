@@ -6,6 +6,7 @@ import VideoSection from "~/components/video-section";
 import Process from "~/components/process";
 import ServicesSection from "~/components/services";
 import FullWidthImage from "~/components/full-width-image";
+import TestimonialsSection from "~/components/testimonials";
 
 export const meta: MetaFunction = () => {
   return [
@@ -28,6 +29,7 @@ export const loader: LoaderFunction = async ({ request }) => {
       process: data.process,
       services: data.services,
       fullWidthImage: data.fullWidthImage,
+      testimonials: data.testimonials,
       error: null 
     };
   } catch (error: unknown) {
@@ -38,13 +40,15 @@ export const loader: LoaderFunction = async ({ request }) => {
       videoSection: null,
       process: null,
       services: null,
+      fullWidthImage: null,
+      testimonials: null,
       error: (error as Error).message || 'Failed to fetch data' 
     };
   }
 };
 
 export default function Index() {
-  const { hero, statistics, videoSection, process, services, fullWidthImage, error } = useLoaderData<typeof loader>();
+  const { hero, statistics, videoSection, process, services, fullWidthImage, testimonials, error } = useLoaderData<typeof loader>();
 
   if (error) {
     return <div className="text-[#17283D]">Error: {error}</div>;
@@ -79,7 +83,7 @@ export default function Index() {
           alt={fullWidthImage.alt}
         />
       )}
-      
+      {testimonials && <TestimonialsSection testimonials={testimonials} />}
     </main>
   );
 }

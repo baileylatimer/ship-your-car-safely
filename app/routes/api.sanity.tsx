@@ -47,7 +47,8 @@ export async function loader() {
         description,
         services[]{
           title,
-          image
+          image,
+          description
         }
       },
       "fullWidthImage": *[_type == "fullWidthImage"][0]{
@@ -61,6 +62,14 @@ export async function loader() {
         links[]{
           text,
           url
+        }
+      },
+      "testimonials": *[_type == "testimonials"][0]{
+        sectionTitle,
+        testimonialsList[]{
+          testimonialText,
+          author,
+          image
         }
       }
     }`;

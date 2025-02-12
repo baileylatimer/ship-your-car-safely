@@ -1,8 +1,108 @@
-.services-slider {
+/* Testimonials slider styles */
+.testimonials-slider {
   position: relative;
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   user-select: none;
+  padding: 0;
+  margin: 0 -60px;
+}
+
+.testimonials-slider .slick-list {
+  overflow: visible !important;
+  padding: 0 !important;
+}
+
+.testimonials-slider .slick-track {
+  display: flex !important;
+  align-items: stretch;
+}
+
+.testimonials-slider .slick-slide {
+  height: auto;
+  display: flex !important;
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.testimonials-slider .slick-slide.slick-active {
+  opacity: 1;
+}
+
+.testimonials-slider .slick-slide > div {
+  width: 100%;
+  display: flex;
+}
+
+/* Custom arrow styling */
+.testimonials-slider .slick-prev,
+.testimonials-slider .slick-next {
+  width: 48px;
+  height: 48px;
+  background-color: var(--dark-blue);
+  border-radius: 50%;
+  z-index: 50;
+}
+
+.testimonials-slider .slick-prev {
+  left: 20px;
+  z-index: 10;
+}
+
+.testimonials-slider .slick-next {
+  right: 20px;
+  z-index: 10;
+}
+
+.testimonials-slider .slick-prev:before,
+.testimonials-slider .slick-next:before {
+  font-size: 24px;
+  opacity: 1;
+  color: #C8D6E6;
+  /* You can customize the arrow icons here */
+  /* For example:
+  content: '←' for prev arrow
+  content: '→' for next arrow
+  */
+}
+
+.testimonials-slider .slick-prev:hover,
+.testimonials-slider .slick-next:hover {
+  background-color: var(--dark-blue);
+  /* You can customize hover states here */
+  /* For example:
+  transform: scale(1.1);
+  transition: all 0.2s ease;
+  */
+}
+
+@media (max-width: 1024px) {
+  .testimonials-slider {
+    margin: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .testimonials-slider {
+    margin: 0 -20px;
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .testimonials-slider .slick-prev {
+    left: 10px;
+  }
+  
+  .testimonials-slider .slick-next {
+    right: 10px;
+  }
+
+  .testimonials-slider .slick-list {
+    overflow: visible !important;
+  }
 }
 
 .services-slider .slick-list {
@@ -23,6 +123,7 @@
   width: 100%;
   display: flex;
 }
+
 
 /* Dots styling */
 .services-slider .slick-dots {
@@ -54,9 +155,14 @@
   .services-slider .slick-slide {
     padding: 0;
     transition: transform 0.3s ease-out;
+    touch-action: pan-y pinch-zoom;
   }
   
   .services-slider .slick-track {
     transition: transform 0.5s ease-out;
+  }
+
+  .services-slider .slick-slide.slick-active {
+    pointer-events: auto !important;
   }
 }

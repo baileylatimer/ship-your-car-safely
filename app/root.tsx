@@ -10,15 +10,12 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import Navbar from "./components/navbar";
-import styles from "./styles/tailwind.css";
-import slickOverrides from "./styles/slick-overrides.css";
-import indexStyles from "./styles/index.css";
-import navbarStyles from "./styles/navbar.css";
+import "~/styles/tailwind.css";
+import "~/styles/slick-overrides.css";
+import "~/styles/index.css";
+import "~/styles/navbar.css";
 
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: styles },
-  { rel: "stylesheet", href: indexStyles },
-  { rel: "stylesheet", href: navbarStyles },
   {
     rel: "stylesheet",
     href: "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css",
@@ -26,8 +23,7 @@ export const links: LinksFunction = () => [
   {
     rel: "stylesheet",
     href: "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css",
-  },
-  { rel: "stylesheet", href: slickOverrides },
+  }
 ];
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -66,7 +62,6 @@ export default function App() {
         <Outlet />
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
       </body>
     </html>
   );

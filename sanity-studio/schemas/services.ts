@@ -35,10 +35,10 @@ export default {
               },
             },
             {
-              name: 'flipContent',
-              title: 'Flip Side Content',
+              name: 'description',
+              title: 'Service Description',
               type: 'text',
-              description: 'Content to show when the card is flipped',
+              
             },
           ],
         },

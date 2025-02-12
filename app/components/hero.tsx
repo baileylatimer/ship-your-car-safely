@@ -12,7 +12,7 @@ interface HeroProps {
 
 export default function Hero({ title, backgroundImage }: HeroProps) {
   return (
-    <div className="relative h-screen m-10 sm:m-5 rounded-md border-radius-30">
+    <div className="relative h-screen m-10 sm:m-3 rounded-md border-radius-30">
       {/* Background image with overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center rounded-md border-radius-30"
@@ -20,11 +20,17 @@ export default function Hero({ title, backgroundImage }: HeroProps) {
           backgroundImage: `url(${urlFor(backgroundImage).width(1920).url()})`,
         }}
       >
-        <div className="absolute inset-0 bg-black/40 border-radius-30"></div>
+        <div 
+          className="absolute bottom-0 left-0 right-0 h-[307px]" 
+          style={{
+            borderRadius: '0px 0px 30px 30px',
+            background: 'linear-gradient(180deg, rgba(23, 40, 61, 0.00) 0%, #17283D 100%)'
+          }}
+        ></div>
       </div>
       
       {/* Content */}
-      <div className="relative h-full flex items-center justify-start px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <div className="relative h-full flex items-center justify-start px-4 sm:px-3 lg:px-8 max-w-7xl mx-auto">
         <h1 className="text-h1-mobile md:text-h1 font-medium text-[#C8D6E6] max-w-3xl">
           {title}
         </h1>
