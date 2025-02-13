@@ -51,9 +51,22 @@ export interface Testimonials {
   testimonialsList: TestimonialCard[]
 }
 
+export interface SocialLink {
+  icon: SanityImage
+  url: string
+}
+
+export interface Footer {
+  heading: string
+  buttonText: string
+  paragraph: string
+  socialLinks: SocialLink[]
+}
+
 export interface LoaderData {
   process: Process
   services: Services
   navbar: Navbar
   testimonials: Testimonials
+  footer: Footer
 }

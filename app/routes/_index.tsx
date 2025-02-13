@@ -7,6 +7,7 @@ import Process from "~/components/process";
 import ServicesSection from "~/components/services";
 import FullWidthImage from "~/components/full-width-image";
 import TestimonialsSection from "~/components/testimonials";
+import "../styles/index.css";
 
 export const meta: MetaFunction = () => {
   return [

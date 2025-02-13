@@ -12,7 +12,7 @@ interface HeroProps {
 
 export default function Hero({ title, backgroundImage }: HeroProps) {
   return (
-    <div className="relative h-screen m-10 sm:m-3 rounded-md border-radius-30">
+    <div className="relative h-screen m-3 lg:m-10 rounded-md border-radius-30">
       {/* Background image with overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center rounded-md border-radius-30"

@@ -23,7 +23,6 @@
   display: flex !important;
   opacity: 0.3;
   transition: opacity 0.3s ease;
-  padding: 0 10px;
   box-sizing: border-box;
 }
 

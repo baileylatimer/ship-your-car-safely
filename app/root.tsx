@@ -10,6 +10,8 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import Navbar from "./components/navbar";
+import Footer from "./components/footer";
+import { urlFor } from "~/lib/sanity.image";
 import "~/styles/tailwind.css";
 import "~/styles/slick-overrides.css";
 import "~/styles/index.css";
@@ -33,15 +35,25 @@ export const loader: LoaderFunction = async ({ request }) => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    return json({ navbar: data.navbar });
+    console.log('API Response:', {
+      navbar: data.navbar,
+      footer: data.footer,
+      'footer exists': !!data.footer,
+      'footer socialLinks': data.footer?.socialLinks
+    }); // Debug log
+    return json({ 
+      navbar: data.navbar,
+      footer: data.footer 
+    });
   } catch (error) {
     console.error('Error fetching navbar data:', error);
-    return json({ navbar: null });
+    return json({ navbar: null, footer: null });
   }
 };
 
 export default function App() {
-  const { navbar } = useLoaderData<typeof loader>();
+  const { navbar, footer } = useLoaderData<typeof loader>();
+  console.log('Footer Data:', footer); // Debug log
   return (
     <html lang="en">
       <head>
@@ -60,6 +72,13 @@ export default function App() {
           />
         )}
         <Outlet />
+        {footer && navbar && (
+          <Footer 
+            footer={footer}
+            phoneNumber={navbar.phoneNumber}
+            phoneIcon={navbar.phoneIcon}
+          />
+        )}
         <ScrollRestoration />
         <Scripts />
       </body>

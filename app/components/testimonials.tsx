@@ -74,7 +74,6 @@ export default function TestimonialsSection({ testimonials = defaultTestimonials
     speed: 500,
     slidesToShow: 0.33,
     slidesToScroll: 1,
-    arrows: true,
     centerMode: true,
     centerPadding: '40%',
     responsive: [
@@ -131,9 +130,13 @@ export default function TestimonialsSection({ testimonials = defaultTestimonials
 
   return (
     <section className="py-16 relative overflow-visible">
+      {/* Left gradient overlay */}
+      <div className="absolute left-0 top-0 bottom-0 w-[150px] bg-gradient-to-r from-[#C8D6E6] to-transparent z-10"></div>
+      {/* Right gradient overlay */}
+      <div className="absolute right-0 top-0 bottom-0 w-[150px] bg-gradient-to-l from-[#C8D6E6] to-transparent z-10"></div>
       <button 
         onClick={goToPrev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 bg-[#17283D] rounded-full flex items-center justify-center text-[#C8D6E6]"
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 bg-[#17283D] rounded-full flex items-center justify-center text-[#C8D6E6]"
         aria-label="Previous slide"
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="rotate-[225deg]">
@@ -142,20 +145,20 @@ export default function TestimonialsSection({ testimonials = defaultTestimonials
       </button>
       <button 
         onClick={goToNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 bg-[#17283D] rounded-full flex items-center justify-center text-[#C8D6E6]"
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 bg-[#17283D] rounded-full flex items-center justify-center text-[#C8D6E6]"
         aria-label="Next slide"
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="rotate-45">
           <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </button>
-      <div className="max-w-7xl mx-auto"> {/* No padding here */}
-  <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center text-[#17283D]">
+      <div> {/* No constraints */}
+  <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center z-11 text-[#17283D]">
     {testimonials.sectionTitle}
   </h2>
 
   {SliderComponent ? (
-    <SliderComponent ref={sliderRef} {...settings} className="m-auto gap-8">
+    <SliderComponent ref={sliderRef} {...settings}>
       {testimonials.testimonialsList.map((testimonial, index) => (
         <div key={index} className="px-2">
           <div className="bg-light-blue-bg border border-[#17283D] rounded-2xl p-8 h-full flex flex-col">

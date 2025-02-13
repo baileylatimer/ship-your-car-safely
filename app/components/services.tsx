@@ -27,7 +27,7 @@ export default function ServicesSection({ title, description, services }: Servic
     autoplay: true,
     autoplaySpeed: 3000,
     pauseOnHover: true,
-    arrows: true,
+    arrows: false,
     fade: true,
     swipe: true,
     touchMove: true,
@@ -171,8 +171,7 @@ function ServiceCard({
       <div 
         className="absolute inset-0 px-5 flex items-center justify-center transition-opacity duration-300 opacity-0 group-hover:opacity-100 z-30"
       >
-        <p className="text-[#C8D6E6] text-lg text-center">hello{service.description}</p>
-        <p>{service.description}</p>
+        <p className="text-[#C8D6E6] text-lg">{service.description}</p>
       </div>
 
       {/* Front Content (Image Layer) */}

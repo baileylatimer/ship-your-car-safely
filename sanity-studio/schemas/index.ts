@@ -7,5 +7,6 @@ import process from './process'
 import services from './services'
 import fullWidthImage from './full-width-image'
 import navbar from './navbar'
+import footer from './footer'
 
-export const schemaTypes = [project, hero, statistics, videoSection, process, services, fullWidthImage, navbar, testimonials]
+export const schemaTypes = [project, hero, statistics, videoSection, process, services, fullWidthImage, navbar, testimonials, footer]

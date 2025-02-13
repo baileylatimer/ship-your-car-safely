@@ -71,6 +71,15 @@ export async function loader() {
           author,
           image
         }
+      },
+      "footer": *[_type == "footer"][0]{
+        heading,
+        buttonText,
+        paragraph,
+        socialLinks[]{
+          icon,
+          url
+        }
       }
     }`;
     
