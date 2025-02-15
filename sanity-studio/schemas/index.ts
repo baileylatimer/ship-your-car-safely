@@ -13,6 +13,7 @@ import navbar from './navbar'
 import footer from './footer'
 import infoAbout from './info-about'
 import imagesAbout from './images-about'
+import aboutVideo from './about-video'
 
 export const schemaTypes = [
   project,

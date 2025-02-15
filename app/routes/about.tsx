@@ -2,8 +2,9 @@ import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { createClient } from '@sanity/client';
+import { useTextAnimation } from "~/hooks/useTextAnimation";
 import Navbar from "~/components/navbar";
-import VideoSection from "~/components/video-section";
+import AboutVideo from "~/components/about-video";
 import InfoAbout from "~/components/info-about";
 import ImagesAbout from "~/components/images-about";
 import "../styles/index.css";
@@ -34,14 +35,13 @@ export const loader: LoaderFunction = async () => {
     const aboutHeading = await sanityClient.fetch(query);
     console.log('About Heading:', aboutHeading);
 
-    const videoQuery = `*[_type == "videoSection"][0]{
-      title,
+    const aboutVideoQuery = `*[_type == "aboutVideo"][0]{
       "videoUrl": video.asset->url,
       coverImage
     }`;
 
-    const videoSection = await sanityClient.fetch(videoQuery);
-    console.log('Video Section:', videoSection);
+    const aboutVideo = await sanityClient.fetch(aboutVideoQuery);
+    console.log('About Video:', aboutVideo);
 
     const navbarQuery = `*[_type == "navbar"][0]{
       logo,
@@ -88,7 +88,7 @@ export const loader: LoaderFunction = async () => {
     
     return json({ 
       aboutHeading,
-      videoSection,
+      aboutVideo,
       navbar,
       footer,
       infoAbout,
@@ -99,7 +99,7 @@ export const loader: LoaderFunction = async () => {
     console.error('Error fetching data:', error);
     return json({ 
       aboutHeading: null,
-      videoSection: null,
+      aboutVideo: null,
       navbar: null,
       footer: null,
       error: (error as Error).message || 'Failed to fetch data' 
@@ -110,18 +110,18 @@ export const loader: LoaderFunction = async () => {
 export default function About() {
   const data = useLoaderData<typeof loader>();
   console.log('Loader Data:', data); // Debug log
-  const { aboutHeading, videoSection, navbar, footer, infoAbout, imagesAbout, error } = data;
+  const { aboutHeading, aboutVideo, navbar, footer, infoAbout, imagesAbout, error } = data;
 
   if (error) {
     return <div className="text-[#17283D]">Error: {error}</div>;
   }
 
-  if (!aboutHeading || !videoSection || !navbar || !footer || !infoAbout || !imagesAbout) {
+  if (!aboutHeading || !aboutVideo || !navbar || !footer || !infoAbout || !imagesAbout) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Navbar 
         logo={navbar.logo}
         phoneNumber={navbar.phoneNumber}
@@ -129,15 +129,17 @@ export default function About() {
         navLinks={navbar.links}
         isHomePage={false}
       />
-      <div className="min-h-screen">
-        <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h1 className="text-[31px] md:text-h1 font-medium mb-16 text-[#17283D]">
+      <div className="flex-grow">
+        <div className="mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <h1 
+            ref={useTextAnimation(aboutHeading.heading)}
+            className="text-[31px] md:text-h1 font-medium mb-16 text-[#17283D]"
+          >
             {aboutHeading.heading}
           </h1>
-          <VideoSection 
-            title={videoSection.title}
-            videoUrl={videoSection.videoUrl}
-            coverImage={videoSection.coverImage}
+          <AboutVideo 
+            videoUrl={aboutVideo.videoUrl}
+            coverImage={aboutVideo.coverImage}
           />
           <div className="mt-16">
             <InfoAbout items={infoAbout.items} />

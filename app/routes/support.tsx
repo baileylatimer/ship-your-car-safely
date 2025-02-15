@@ -2,6 +2,7 @@ import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { createClient } from '@sanity/client';
+import { useTextAnimation } from "~/hooks/useTextAnimation";
 import Navbar from "~/components/navbar";
 import Faq from "~/components/faq";
 import "../styles/index.css";
@@ -104,7 +105,10 @@ export default function Support() {
       />
       <div className="min-h-screen">
         <div className="mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h1 className="text-[31px] md:text-[76px] font-medium mb-16 text-[#17283D]">
+          <h1 
+            ref={useTextAnimation(supportHeader.heading)}
+            className="text-[31px] md:text-[76px] font-medium mb-16 text-[#17283D]"
+          >
             {supportHeader.heading}
           </h1>
           <Faq items={faq.items} />

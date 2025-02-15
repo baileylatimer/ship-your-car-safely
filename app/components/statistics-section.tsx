@@ -1,3 +1,6 @@
+import { useTextAnimation } from "~/hooks/useTextAnimation";
+import Button from './button';
+
 interface Stat {
   value: string;
   label: string;
@@ -13,7 +16,10 @@ export default function StatisticsSection({ heading, description, stats }: Stati
   return (
     <section className="py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-h2-mobile md:text-h2 font-medium mb-16 text-[#17283D]">
+        <h2 
+          ref={useTextAnimation(heading)}
+          className="text-h2-mobile md:text-h2 font-medium mb-16 text-[#17283D]"
+        >
           {heading}
         </h2>
         
@@ -23,25 +29,16 @@ export default function StatisticsSection({ heading, description, stats }: Stati
             <p className="text-base-p font-book text-[#17283D]/80 mb-8">
               {description}
             </p>
-            <a 
-              href="/about" 
-              className="inline-flex items-center px-10 py-3 border border-transparent text-base-p font-medium rounded-[20px] text-[#C8D6E6] bg-[#17283D] hover:bg-[#17283D]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#17283D] mb-16"
+            <Button 
+              variant="dark" 
+              className="group mb-16 w-auto"
+              to="/about"
             >
               Our story
-              <svg 
-                className="ml-2 -mr-1 w-4 h-4" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={2} 
-                  d="M9 5l7 7-7 7" 
-                />
+              <svg className="ml-2 w-4 h-4 -rotate-45 transition-transform group-hover:rotate-0" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 8H15M15 8L8 1M15 8L8 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-            </a>
+            </Button>
 
             {/* Decorative bars */}
             <div className="hidden lg:block -ml-40">

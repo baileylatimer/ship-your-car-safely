@@ -9,15 +9,13 @@ interface FaqProps {
 
 export default function Faq({ items }: FaqProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
-  const itemRefs = useRef<(HTMLDivElement | null)[]>([])
   const lineRefs = useRef<(HTMLDivElement | null)[]>([])
   const contentRefs = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
     // Initialize GSAP animations
-    itemRefs.current.forEach((_, index) => {
+    contentRefs.current.forEach((content, index) => {
       const line = lineRefs.current[index]
-      const content = contentRefs.current[index]
 
       if (!line || !content) return
 
@@ -66,18 +64,6 @@ export default function Faq({ items }: FaqProps) {
             setActiveIndex(index)
           }
         })
-
-        // Reset position of items between old and new selection
-        const start = Math.min(activeIndex, index)
-        const end = Math.max(activeIndex, index)
-        const itemsToReset = itemRefs.current.slice(start + 1, end + 1)
-        if (itemsToReset.length > 0) {
-          tl.to(itemsToReset, {
-            y: 0,
-            duration: 0.25,
-            ease: 'power3.inOut'
-          }, '-=0.15')
-        }
       } else {
         // No active item, just open the new one
         openItem(index)
@@ -89,7 +75,6 @@ export default function Faq({ items }: FaqProps) {
   const openItem = (index: number) => {
     const line = lineRefs.current[index]
     const content = contentRefs.current[index]
-    const nextItems = itemRefs.current.slice(index + 1)
 
     if (!line || !content) return
 
@@ -103,65 +88,46 @@ export default function Faq({ items }: FaqProps) {
     tl.to(line, {
       top: 'auto',
       bottom: 0,
-      duration: 0.3,
+      duration: 0.25,
       ease: 'power3.inOut'
     })
     .to(content, {
       height: contentHeight,
-      duration: 0.3,
+      duration: 0.25,
       ease: 'power3.out'
-    }, '-=0.15')
+    }, '-=0.25')
     .to(content, {
       opacity: 1,
       duration: 0.2,
       ease: 'power2.out'
-    }, '-=0.2')
-
-    // Push down subsequent items
-    if (nextItems.length > 0) {
-      tl.to(nextItems, {
-        y: contentHeight,
-        duration: 0.3,
-        ease: 'power3.inOut'
-      }, '-=0.3')
-    }
+    }, '-=0.1')
   }
 
   const closeItem = (index: number) => {
     const line = lineRefs.current[index]
     const content = contentRefs.current[index]
-    const nextItems = itemRefs.current.slice(index + 1)
 
     if (!line || !content) return
 
     const tl = gsap.timeline()
 
-    // Return items to original position first
-    if (nextItems.length > 0) {
-      tl.to(nextItems, {
-        y: 0,
-        duration: 0.3,
-        ease: 'power3.inOut'
-      })
-    }
-
-    // Then animate content and line
+    // Animate content and line
     tl.to(content, {
       opacity: 0,
-      duration: 0.2,
+      duration: 0.15,
       ease: 'power2.in'
     })
     .to(content, {
       height: 0,
-      duration: 0.3,
+      duration: 0.25,
       ease: 'power3.inOut'
-    })
+    }, '-=0.1')
     .to(line, {
       top: '70px',
       bottom: 'auto',
-      duration: 0.3,
+      duration: 0.25,
       ease: 'power3.inOut'
-    }, '-=0.15')
+    }, '-=0.25')
   }
 
   return (
@@ -169,7 +135,6 @@ export default function Faq({ items }: FaqProps) {
       {items.map((item, index) => (
         <div 
           key={index}
-          ref={el => itemRefs.current[index] = el}
           className="relative py-5 cursor-pointer"
           onClick={() => handleClick(index)}
         >

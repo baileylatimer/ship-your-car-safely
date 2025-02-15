@@ -1,10 +1,10 @@
 import { useState, useRef } from 'react';
 import { urlFor } from '~/lib/sanity.image';
 
-interface VideoSectionProps {
-  title: string;
+interface AboutVideoProps {
   videoUrl: string;
   coverImage: {
+    _type: 'image';
     asset: {
       _ref: string;
     };
@@ -27,7 +27,7 @@ const PlayButton = ({ size = 'small' }: { size?: 'small' | 'large' }) => (
   </svg>
 );
 
-export default function VideoSection({ title, videoUrl, coverImage }: VideoSectionProps) {
+export default function AboutVideo({ videoUrl, coverImage }: AboutVideoProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -43,10 +43,8 @@ export default function VideoSection({ title, videoUrl, coverImage }: VideoSecti
   };
 
   return (
-    <section className="py-24">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="w-full relative rounded-[30px] overflow-hidden">
-        <button 
+    <div className="w-full relative rounded-[30px] overflow-hidden">
+      <button 
         aria-label={isPlaying ? "Pause video" : "Play video"}
         className="group relative aspect-video overflow-hidden cursor-pointer w-full text-left"
         onClick={handleVideoClick}
@@ -57,26 +55,12 @@ export default function VideoSection({ title, videoUrl, coverImage }: VideoSecti
           }
         }}
       >
-        {/* Gradient overlay */}
-        <div 
-          className="absolute top-0 left-0 right-0 h-[184px] z-20 pointer-events-none"
-          style={{
-            background: 'linear-gradient(180deg, #17283D 0%, rgba(23, 40, 61, 0.00) 100%)'
-          }}
-        />
-
-        {/* Title and small play button */}
-        <div className="absolute top-8 left-8 z-30 flex items-center space-x-4 pointer-events-none">
-          <PlayButton />
-          <h3 className="text-h3-mobile md:text-h3 font-medium text-[#C8D6E6]">{title}</h3>
-        </div>
-
         {/* Cover image */}
         {!isPlaying && (
           <div className="absolute inset-0 z-[15]">
             <img
               src={urlFor(coverImage).width(1920).height(1080).url()}
-              alt={title}
+              alt="Video thumbnail"
               className="w-full h-full object-cover"
             />
             {/* Large centered play button */}
@@ -93,7 +77,7 @@ export default function VideoSection({ title, videoUrl, coverImage }: VideoSecti
           className="w-full h-full object-cover"
           playsInline
           onEnded={() => setIsPlaying(false)}
-          aria-label={title}
+          aria-label="About video"
           controls={isPlaying}
         >
           <track 
@@ -104,9 +88,7 @@ export default function VideoSection({ title, videoUrl, coverImage }: VideoSecti
             default 
           />
         </video>
-        </button>
-        </div>
-      </div>
-    </section>
+      </button>
+    </div>
   );
 }

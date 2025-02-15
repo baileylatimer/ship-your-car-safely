@@ -82,6 +82,16 @@ export interface Faq {
   items: FaqItem[]
 }
 
+export interface AboutVideo {
+  video: {
+    asset: {
+      _ref: string
+      url: string
+    }
+  }
+  coverImage: SanityImage
+}
+
 export interface LoaderData {
   process: Process
   services: Services

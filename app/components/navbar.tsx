@@ -108,7 +108,7 @@ function MobileMenu({ isOpen, onClose, phoneNumber, navLinks, logo, phoneIcon }:
         </div>
         </div>
         {/* Footer Text */}
-        <div className="mobile-menu-footer">
+        <div className="mobile-menu-footer w-full flex justify-between">
           <p>Ship Your Car Safely</p>
           <p>©2025</p>
         </div>
@@ -244,11 +244,11 @@ export default function Navbar({ logo, phoneNumber, phoneIcon, navLinks, isHomeP
             <span className="sr-only">Open main menu</span>
             {/* Always visible hamburger icon */}
             <svg
-              className="menu-icon "
+              className="menu-icon nav-text"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke={isHomePage ? "var(--light-blue-bg)" : "var(--dark-blue-bg)"}
+              stroke="currentColor"
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
