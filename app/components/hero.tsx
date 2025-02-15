@@ -12,7 +12,7 @@ interface HeroProps {
 
 export default function Hero({ title, backgroundImage }: HeroProps) {
   return (
-    <div className="relative h-screen m-3 lg:m-10 rounded-md border-radius-30">
+    <div className="hero-section relative h-screen mx-3 lg:mx-10 mt-5 rounded-md border-radius-30">
       {/* Background image with overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center rounded-md border-radius-30"
@@ -20,6 +20,14 @@ export default function Hero({ title, backgroundImage }: HeroProps) {
           backgroundImage: `url(${urlFor(backgroundImage).width(1920).url()})`,
         }}
       >
+        {/* Top gradient overlay */}
+        <div 
+          className="absolute top-0 left-0 right-0 h-[307px]" 
+          style={{
+            borderRadius: '30px 30px 0px 0px',
+            background: 'linear-gradient(0deg, rgba(23, 40, 61, 0.00) 0%, #17283D 100%)'
+          }}
+        ></div>
         <div 
           className="absolute bottom-0 left-0 right-0 h-[307px]" 
           style={{

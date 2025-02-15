@@ -9,7 +9,6 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
-import Navbar from "./components/navbar";
 import Footer from "./components/footer";
 import { urlFor } from "~/lib/sanity.image";
 import "~/styles/tailwind.css";
@@ -63,14 +62,6 @@ export default function App() {
         <Links />
       </head>
       <body>
-        {navbar && (
-          <Navbar
-            logo={navbar.logo}
-            phoneNumber={navbar.phoneNumber}
-            phoneIcon={navbar.phoneIcon}
-            navLinks={navbar.links}
-          />
-        )}
         <Outlet />
         {footer && navbar && (
           <Footer 

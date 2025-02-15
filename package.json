@@ -17,7 +17,6 @@
     "@remix-run/serve": "^2.13.1",
     "@sanity/client": "^6.22.1",
     "@sanity/image-url": "^1.0.2",
-    "@types/gsap": "^1.20.2",
     "framer-motion": "^12.4.0",
     "gsap": "^3.12.7",
     "isbot": "^4.1.0",
@@ -28,6 +27,7 @@
   },
   "devDependencies": {
     "@remix-run/dev": "^2.13.1",
+    "@types/gsap": "^1.20.2",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@types/react-slick": "^0.23.13",

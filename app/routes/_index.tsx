@@ -1,6 +1,7 @@
 import type { MetaFunction, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import Hero from "~/components/hero";
+import Navbar from "~/components/navbar";
 import StatisticsSection from "~/components/statistics-section";
 import VideoSection from "~/components/video-section";
 import Process from "~/components/process";
@@ -31,6 +32,7 @@ export const loader: LoaderFunction = async ({ request }) => {
       services: data.services,
       fullWidthImage: data.fullWidthImage,
       testimonials: data.testimonials,
+      navbar: data.navbar,
       error: null 
     };
   } catch (error: unknown) {
@@ -43,24 +45,32 @@ export const loader: LoaderFunction = async ({ request }) => {
       services: null,
       fullWidthImage: null,
       testimonials: null,
+      navbar: null,
       error: (error as Error).message || 'Failed to fetch data' 
     };
   }
 };
 
 export default function Index() {
-  const { hero, statistics, videoSection, process, services, fullWidthImage, testimonials, error } = useLoaderData<typeof loader>();
+  const { hero, statistics, videoSection, process, services, fullWidthImage, testimonials, navbar, error } = useLoaderData<typeof loader>();
 
   if (error) {
     return <div className="text-[#17283D]">Error: {error}</div>;
   }
 
-  if (!hero || !statistics || !videoSection || !process || !services) {
+  if (!hero || !statistics || !videoSection || !process || !services || !navbar) {
     return <div>Loading...</div>;
   }
 
   return (
     <main>
+      <Navbar 
+        logo={navbar.logo}
+        phoneNumber={navbar.phoneNumber}
+        phoneIcon={navbar.phoneIcon}
+        navLinks={navbar.links}
+        isHomePage={true}
+      />
       <Hero title={hero.title} backgroundImage={hero.backgroundImage} />
       <StatisticsSection 
         heading={statistics.heading}

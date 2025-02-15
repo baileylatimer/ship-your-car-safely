@@ -1,6 +1,8 @@
 :root {
   --light-blue: #C8D6E6;
   --dark-blue: #17283D;
+  --light-blue-bg: #C8D6E6;
+  --dark-blue-bg: #17283D;
 }
 
 .btn-dark {
@@ -29,4 +31,5 @@
 body {
     background-color: var(--light-blue);
     max-width: 100vw !important;
+    overflow-x:hidden
   }

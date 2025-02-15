@@ -1,4 +1,7 @@
 import project from './project'
+import faq from './faq'
+import supportHeader from './support-header'
+import aboutHeading from './about-heading'
 import testimonials from './testimonials'
 import hero from './hero'
 import statistics from './statistics'
@@ -8,5 +11,23 @@ import services from './services'
 import fullWidthImage from './full-width-image'
 import navbar from './navbar'
 import footer from './footer'
+import infoAbout from './info-about'
+import imagesAbout from './images-about'
 
-export const schemaTypes = [project, hero, statistics, videoSection, process, services, fullWidthImage, navbar, testimonials, footer]
+export const schemaTypes = [
+  project,
+  hero,
+  statistics,
+  videoSection,
+  process,
+  services,
+  fullWidthImage,
+  navbar,
+  testimonials,
+  footer,
+  aboutHeading,
+  infoAbout,
+  imagesAbout,
+  supportHeader,
+  faq
+]

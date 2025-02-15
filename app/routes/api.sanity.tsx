@@ -21,6 +21,9 @@ export async function loader() {
     }
 
     const query = `{
+      "aboutHeading": *[_type == "aboutHeading"][0]{
+        heading
+      },
       "hero": *[_type == "hero"][0]{
         title,
         backgroundImage

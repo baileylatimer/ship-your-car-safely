@@ -63,10 +63,31 @@ export interface Footer {
   socialLinks: SocialLink[]
 }
 
+export interface InfoAboutItem {
+  title: string
+  description: string
+}
+
+export interface InfoAbout {
+  items: InfoAboutItem[]
+}
+
+export interface FaqItem {
+  title: string
+  description: string
+  image: SanityImage
+}
+
+export interface Faq {
+  items: FaqItem[]
+}
+
 export interface LoaderData {
   process: Process
   services: Services
   navbar: Navbar
   testimonials: Testimonials
   footer: Footer
+  infoAbout: InfoAbout
+  faq: Faq
 }
