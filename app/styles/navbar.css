@@ -7,9 +7,16 @@
     transition: filter 0.3s ease;
 }
 
+.nav-dark {
+    color: var(--dark-blue-bg);
+}
+
+.nav-dark img {
+    filter: brightness(0.15);
+}
+
 .nav-container {
-    background-color: transparent;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 .nav-content {

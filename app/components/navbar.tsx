@@ -130,69 +130,63 @@ export default function Navbar({ logo, phoneNumber, phoneIcon, navLinks, isHomeP
   const navRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (!isHomePage) {
-        // Non-home pages: Set dark colors with gradient
-        gsap.set(navRef.current, {
-          backgroundImage: 'linear-gradient(180deg, #C8D6E6 23.93%, rgba(200, 214, 230, 0.00) 100%)'
-        })
-        gsap.set('.nav-text', {
-          color: 'var(--dark-blue-bg)',
-          filter: 'brightness(0) saturate(100%) invert(13%) sepia(18%) saturate(1425%) hue-rotate(182deg) brightness(97%) contrast(88%)'
-        })
-      } else {
-        // Home page: Set initial light colors and add scroll trigger
-        gsap.set('.nav-text', {
-          color: 'var(--light-blue-bg)',
-          filter: 'brightness(0) saturate(100%) invert(87%) sepia(11%) saturate(307%) hue-rotate(182deg) brightness(93%) contrast(85%)'
-        })
-        gsap.set(navRef.current, {
-          backgroundImage: 'none',
-          backgroundColor: 'transparent'
-        })
+    if (typeof window !== 'undefined' && isHomePage) {
+      // Only set up scroll trigger on home page
+      gsap.set('.nav-text', {
+        color: 'var(--light-blue-bg)',
+        filter: 'brightness(0) saturate(100%) invert(87%) sepia(11%) saturate(307%) hue-rotate(182deg) brightness(93%) contrast(85%)'
+      })
+      gsap.set(navRef.current, {
+        backgroundImage: 'none',
+        backgroundColor: 'transparent'
+      })
 
-        ScrollTrigger.create({
-          trigger: '.hero-section',
-          start: `bottom top+=${navRef.current?.offsetHeight || 0}`,
-          onEnter: () => {
-            gsap.to(navRef.current, {
-              backgroundImage: 'linear-gradient(180deg, #C8D6E6 23.93%, rgba(200, 214, 230, 0.00) 100%)',
-              duration: 0.3
-            })
-            gsap.to('.nav-text', {
-              color: 'var(--dark-blue-bg)',
-              filter: 'brightness(0) saturate(100%) invert(13%) sepia(18%) saturate(1425%) hue-rotate(182deg) brightness(97%) contrast(88%)',
-              duration: 0.3
-            })
-          },
-          onLeaveBack: () => {
-            gsap.to(navRef.current, {
-              backgroundColor: 'transparent',
-              backgroundImage: 'none',
-              duration: 0.3
-            })
-            gsap.to('.nav-text', {
-              color: 'var(--light-blue-bg)',
-              filter: 'brightness(0) saturate(100%) invert(87%) sepia(11%) saturate(307%) hue-rotate(182deg) brightness(93%) contrast(85%)',
-              duration: 0.3
-            })
-          }
-        })
-      }
+      // Create scroll trigger only for home page
+      ScrollTrigger.create({
+        trigger: '.hero-section',
+        start: `bottom top+=${navRef.current?.offsetHeight || 0}`,
+        onEnter: () => {
+          gsap.to(navRef.current, {
+            backgroundImage: 'linear-gradient(180deg, #C8D6E6 23.93%, rgba(200, 214, 230, 0.00) 100%)',
+            duration: 0.3
+          })
+          gsap.to('.nav-text', {
+            color: 'var(--dark-blue-bg)',
+            filter: 'brightness(0) saturate(100%) invert(13%) sepia(18%) saturate(1425%) hue-rotate(182deg) brightness(97%) contrast(88%)',
+            duration: 0.3
+          })
+        },
+        onLeaveBack: () => {
+          gsap.to(navRef.current, {
+            backgroundColor: 'transparent',
+            backgroundImage: 'none',
+            duration: 0.3
+          })
+          gsap.to('.nav-text', {
+            color: 'var(--light-blue-bg)',
+            filter: 'brightness(0) saturate(100%) invert(87%) sepia(11%) saturate(307%) hue-rotate(182deg) brightness(93%) contrast(85%)',
+            duration: 0.3
+          })
+        }
+      })
     }
   }, [isHomePage])
 
   return (
     <nav 
       ref={navRef}
-      className="nav-container fixed top-0 left-0 right-0 z-50 bg-transparent">
+      className="nav-container fixed top-0 left-0 right-0 z-50"
+      style={{
+        backgroundImage: !isHomePage ? 'linear-gradient(180deg, #C8D6E6 23.93%, rgba(200, 214, 230, 0.00) 100%)' : 'none',
+        backgroundColor: isHomePage ? 'transparent' : 'transparent'
+      }}>
       <div className="nav-content mx-auto px-4 sm:px-6 lg:px-8 py-4">
         {/* Logo - Centered */}
         <div className="logo-container">
           <Link to="/">
             {logo?.asset?._ref ? (
               <img
-                className="h-12 w-auto nav-text"
+                className={`h-12 w-auto ${!isHomePage ? 'nav-dark' : 'nav-text'}`}
                 src={urlFor(logo).url()}
                 alt="Company logo"
               />
@@ -207,13 +201,13 @@ export default function Navbar({ logo, phoneNumber, phoneIcon, navLinks, isHomeP
           <div className="flex items-center space-x-4">
             <Link
               to="/about"
-              className="text-base-p font-medium text-[var(--light-blue-bg)] nav-text pointer-events-auto"
+              className={`text-base-p font-medium pointer-events-auto ${isHomePage ? 'nav-text text-[var(--light-blue-bg)]' : 'nav-dark'}`}
             >
               About
             </Link>
             <Link
               to="/support"
-              className="text-base-p font-medium text-[var(--light-blue-bg)] nav-text pointer-events-auto"
+              className={`text-base-p font-medium pointer-events-auto ${isHomePage ? 'nav-text text-[var(--light-blue-bg)]' : 'nav-dark'}`}
             >
               Support
             </Link>
@@ -228,17 +222,19 @@ export default function Navbar({ logo, phoneNumber, phoneIcon, navLinks, isHomeP
           >
             {phoneIcon?.asset?._ref && (
               <img
-                className="h-5 w-5 pointer-events-none nav-text mr-2"
+                className={`h-5 w-5 mr-2 ${!isHomePage ? 'nav-dark' : 'nav-text'}`}
                 src={urlFor(phoneIcon).url()}
                 alt="Phone icon"
               />
             )}
-            <span className="text-base-p font-medium text-[var(--light-blue-bg)] nav-text">{phoneNumber}</span>
+            <span className={`text-base-p font-medium ${isHomePage ? 'nav-text text-[var(--light-blue-bg)]' : 'nav-dark'}`}>{phoneNumber}</span>
           </a>
         </div>
 
         {/* Mobile menu button */}
-        <div className="mobile-menu-container flex sm:hidden">
+        
+      </div>
+      <div className="mobile-menu-container flex sm:hidden">
           <button
             type="button"
             onClick={() => setIsOpen(!isOpen)}
@@ -258,8 +254,6 @@ export default function Navbar({ logo, phoneNumber, phoneIcon, navLinks, isHomeP
             </svg>
           </button>
         </div>
-      </div>
-
       <MobileMenu 
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
