@@ -8,8 +8,11 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useLocation
 } from "@remix-run/react";
+import { useEffect } from "react";
 import Footer from "./components/footer";
+import { PageTransition } from "./components/page-transition";
 import { urlFor } from "~/lib/sanity.image";
 import "~/styles/tailwind.css";
 import "~/styles/slick-overrides.css";
@@ -52,7 +55,22 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function App() {
   const { navbar, footer } = useLoaderData<typeof loader>();
-  console.log('Footer Data:', footer); // Debug log
+  const location = useLocation();
+
+  useEffect(() => {
+    // Check if we need to scroll to hero after navigation
+    if (location.state?.scrollToHero) {
+      // Wait for page transition to complete (approximately 2.2s)
+      const timer = setTimeout(() => {
+        const heroElement = document.querySelector('#hero');
+        if (heroElement) {
+          heroElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 2200);
+
+      return () => clearTimeout(timer);
+    }
+  }, [location]);
   return (
     <html lang="en">
       <head>
@@ -62,7 +80,7 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <PageTransition />
         {footer && navbar && (
           <Footer 
             footer={footer}

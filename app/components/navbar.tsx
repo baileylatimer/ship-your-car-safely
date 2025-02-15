@@ -5,6 +5,7 @@ import { Link } from '@remix-run/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
 import { urlFor } from '~/lib/sanity.image'
+import Button from './button'
 import '../styles/navbar.css'
 
 if (typeof window !== 'undefined') {
@@ -76,7 +77,7 @@ function MobileMenu({ isOpen, onClose, phoneNumber, navLinks, logo, phoneIcon }:
         </div>
           <div className="flex flex-col items-center">
         {/* Get a Quote Button */}
-        <button className="btn-light mobile-quote-btn">
+        <Button isQuoteButton variant="light" className="mobile-quote-btn">
           Get a quote
           <svg 
             className="arrow-icon" 
@@ -92,7 +93,7 @@ function MobileMenu({ isOpen, onClose, phoneNumber, navLinks, logo, phoneIcon }:
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
-        </button>
+        </Button>
 
         {/* Phone Number */}
         <a href={`tel:${phoneNumber}`} className="mobile-phone-number">
@@ -215,10 +216,25 @@ export default function Navbar({ logo, phoneNumber, phoneIcon, navLinks, isHomeP
         </div>
 
         {/* Right Side Navigation */}
-        <div className="hidden md:flex items-center justify-end pr-4">
+        <div className="hidden md:flex items-center justify-end pr-4 gap-6">
+          <Button isQuoteButton variant="light" className="text-base-p">
+            Get a quote
+            <svg 
+              className="ml-2 w-4 h-4" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </Button>
           <a
             href={`tel:${phoneNumber}`}
-            className="flex items-center pointer-events-auto ml-4"
+            className="flex items-center pointer-events-auto"
           >
             {phoneIcon?.asset?._ref && (
               <img

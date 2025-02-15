@@ -1,5 +1,6 @@
 import React from 'react';
 import { urlFor } from '~/lib/sanity.image';
+import Button from './button';
 
 interface HeroProps {
   title: string;
@@ -12,7 +13,7 @@ interface HeroProps {
 
 export default function Hero({ title, backgroundImage }: HeroProps) {
   return (
-    <div className="hero-section relative h-screen mx-3 lg:mx-10 mt-2 rounded-md border-radius-30">
+    <div id="hero" className="hero-section relative h-screen mx-3 lg:mx-10 mt-2 rounded-md border-radius-30">
       {/* Background image with overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center rounded-md border-radius-30"
@@ -39,9 +40,14 @@ export default function Hero({ title, backgroundImage }: HeroProps) {
       
       {/* Content */}
       <div className="relative h-full flex items-center justify-start px-4 sm:px-3 lg:px-8 max-w-7xl mx-auto">
-        <h1 className="text-h1-mobile md:text-h1 font-medium text-[#C8D6E6] max-w-3xl">
-          {title}
-        </h1>
+        <div className="flex flex-col gap-8">
+          <h1 className="text-h1-mobile md:text-h1 font-medium text-[#C8D6E6] max-w-3xl">
+            {title}
+          </h1>
+          <Button isQuoteButton variant="light" className="w-fit">
+            Get a Quote
+          </Button>
+        </div>
       </div>
     </div>
   );
