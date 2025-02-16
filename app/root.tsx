@@ -2,7 +2,6 @@ import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -13,11 +12,13 @@ import {
 import { useEffect } from "react";
 import Footer from "./components/footer";
 import { PageTransition } from "./components/page-transition";
+import Navbar from "./components/navbar";
 import { urlFor } from "~/lib/sanity.image";
 import "~/styles/tailwind.css";
 import "~/styles/slick-overrides.css";
 import "~/styles/index.css";
 import "~/styles/navbar.css";
+import "~/styles/transitions.css";
 
 export const links: LinksFunction = () => [
   {
@@ -37,12 +38,6 @@ export const loader: LoaderFunction = async ({ request }) => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    console.log('API Response:', {
-      navbar: data.navbar,
-      footer: data.footer,
-      'footer exists': !!data.footer,
-      'footer socialLinks': data.footer?.socialLinks
-    }); // Debug log
     return json({ 
       navbar: data.navbar,
       footer: data.footer 
@@ -58,9 +53,7 @@ export default function App() {
   const location = useLocation();
 
   useEffect(() => {
-    // Check if we need to scroll to hero after navigation
     if (location.state?.scrollToHero) {
-      // Wait for page transition to complete (approximately 2.2s)
       const timer = setTimeout(() => {
         const heroElement = document.querySelector('#hero');
         if (heroElement) {
@@ -71,6 +64,7 @@ export default function App() {
       return () => clearTimeout(timer);
     }
   }, [location]);
+
   return (
     <html lang="en">
       <head>
@@ -80,6 +74,7 @@ export default function App() {
         <Links />
       </head>
       <body>
+        {navbar && <Navbar {...navbar} />}
         <PageTransition />
         {footer && navbar && (
           <Footer 

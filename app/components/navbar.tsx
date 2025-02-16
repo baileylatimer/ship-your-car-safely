@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import type { NavLink } from '~/types/sanity'
 import type { SanityImage } from '~/types/sanity'
-import { Link } from '@remix-run/react'
+import { Link, useLocation } from '@remix-run/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
 import { urlFor } from '~/lib/sanity.image'
@@ -57,56 +57,56 @@ function MobileMenu({ isOpen, onClose, phoneNumber, navLinks, logo, phoneIcon }:
             )}
           </Link>
         </div>
-<div className="flex flex-col h-full justify-between p-20 pt-0">
-        {/* Navigation Links */}
-        <div className="mobile-menu-links">
-          <Link
-            to="/about"
-            className="mobile-nav-link"
-            onClick={onClose}
-          >
-            About
-          </Link>
-          <Link
-            to="/support"
-            className="mobile-nav-link"
-            onClick={onClose}
-          >
-            Support
-          </Link>
-        </div>
+        <div className="flex flex-col h-full justify-between p-20 pt-0">
+          {/* Navigation Links */}
+          <div className="mobile-menu-links">
+            <Link
+              to="/about"
+              className="mobile-nav-link"
+              onClick={onClose}
+            >
+              About
+            </Link>
+            <Link
+              to="/support"
+              className="mobile-nav-link"
+              onClick={onClose}
+            >
+              Support
+            </Link>
+          </div>
           <div className="flex flex-col items-center">
-        {/* Get a Quote Button */}
-        <Button isQuoteButton variant="light" className="mobile-quote-btn">
-          Get a quote
-          <svg 
-            className="arrow-icon" 
-            width="24" 
-            height="24" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </Button>
+            {/* Get a Quote Button */}
+            <Button isQuoteButton variant="light" className="mobile-quote-btn">
+              Get a quote
+              <svg 
+                className="arrow-icon" 
+                width="24" 
+                height="24" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </Button>
 
-        {/* Phone Number */}
-        <a href={`tel:${phoneNumber}`} className="mobile-phone-number">
-          {phoneIcon?.asset?._ref && (
-            <img
-              className="h-5 w-5 mr-2"
-              src={urlFor(phoneIcon).url()}
-              alt="Phone icon"
-            />
-          )}
-          <span>{phoneNumber}</span>
-        </a>
-        </div>
+            {/* Phone Number */}
+            <a href={`tel:${phoneNumber}`} className="mobile-phone-number">
+              {phoneIcon?.asset?._ref && (
+                <img
+                  className="h-5 w-5 mr-2"
+                  src={urlFor(phoneIcon).url()}
+                  alt="Phone icon"
+                />
+              )}
+              <span>{phoneNumber}</span>
+            </a>
+          </div>
         </div>
         {/* Footer Text */}
         <div className="mobile-menu-footer w-full flex justify-between">
@@ -123,149 +123,114 @@ interface NavbarProps {
   phoneNumber: string
   phoneIcon: SanityImage
   navLinks: NavLink[]
-  isHomePage?: boolean
 }
 
-export default function Navbar({ logo, phoneNumber, phoneIcon, navLinks, isHomePage = false }: NavbarProps) {
+export default function Navbar({ logo, phoneNumber, phoneIcon, navLinks }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false)
   const navRef = useRef<HTMLElement>(null)
+  const location = useLocation()
+  const isHomePage = location.pathname === '/'
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && isHomePage) {
-      // Only set up scroll trigger on home page
-      gsap.set('.nav-text', {
-        color: 'var(--light-blue-bg)',
-        filter: 'brightness(0) saturate(100%) invert(87%) sepia(11%) saturate(307%) hue-rotate(182deg) brightness(93%) contrast(85%)'
-      })
+    if (typeof window === 'undefined' || !navRef.current) return
+
+    ScrollTrigger.getAll().forEach(trigger => trigger.kill()) // Kill previous triggers to prevent duplication
+
+    if (isHomePage) {
       gsap.set(navRef.current, {
+        backgroundColor: 'transparent',
         backgroundImage: 'none',
-        backgroundColor: 'transparent'
       })
 
-      // Create scroll trigger only for home page
+      gsap.set('.nav-text', {
+        color: 'var(--light-blue-bg)',
+        filter: 'brightness(0) saturate(100%) invert(87%) sepia(11%) saturate(307%) hue-rotate(182deg) brightness(93%) contrast(85%)',
+      })
+
+      gsap.set('.home-nav-quote-btn', { opacity: 0, y: -20, display: 'none' })
+
       ScrollTrigger.create({
         trigger: '.hero-section',
         start: `bottom top+=${navRef.current?.offsetHeight || 0}`,
         onEnter: () => {
           gsap.to(navRef.current, {
             backgroundImage: 'linear-gradient(180deg, #C8D6E6 23.93%, rgba(200, 214, 230, 0.00) 100%)',
-            duration: 0.3
+            duration: 0.3,
           })
           gsap.to('.nav-text', {
             color: 'var(--dark-blue-bg)',
             filter: 'brightness(0) saturate(100%) invert(13%) sepia(18%) saturate(1425%) hue-rotate(182deg) brightness(97%) contrast(88%)',
-            duration: 0.3
+            duration: 0.3,
           })
+          gsap.to('.home-nav-quote-btn', { opacity: 1, y: 0, display: 'inline-flex', duration: 0.3, ease: 'power2.out' })
         },
         onLeaveBack: () => {
-          gsap.to(navRef.current, {
-            backgroundColor: 'transparent',
-            backgroundImage: 'none',
-            duration: 0.3
-          })
+          gsap.to(navRef.current, { backgroundColor: 'transparent', backgroundImage: 'none', duration: 0.3 })
           gsap.to('.nav-text', {
             color: 'var(--light-blue-bg)',
             filter: 'brightness(0) saturate(100%) invert(87%) sepia(11%) saturate(307%) hue-rotate(182deg) brightness(93%) contrast(85%)',
-            duration: 0.3
+            duration: 0.3,
           })
-        }
+          gsap.to('.home-nav-quote-btn', { 
+            opacity: 0, 
+            y: -20, 
+            duration: 0.3, 
+            ease: 'power2.in', 
+            onComplete: () => {
+              gsap.set('.home-nav-quote-btn', { display: 'none' })
+            }
+          })
+        },
+      })
+    } else {
+      gsap.set(navRef.current, {
+        backgroundImage: 'linear-gradient(180deg, #C8D6E6 23.93%, rgba(200, 214, 230, 0.00) 100%)',
       })
     }
   }, [isHomePage])
 
   return (
-    <nav 
-      ref={navRef}
-      className="nav-container fixed top-0 left-0 right-0 z-50"
-      style={{
-        backgroundImage: !isHomePage ? 'linear-gradient(180deg, #C8D6E6 23.93%, rgba(200, 214, 230, 0.00) 100%)' : 'none',
-        backgroundColor: isHomePage ? 'transparent' : 'transparent'
-      }}>
-      <div className="nav-content mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        {/* Logo - Centered */}
+    <nav ref={navRef} className="nav-container fixed top-0 left-0 right-0 z-50">
+      <div className="nav-content mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+        {/* Logo */}
         <div className="logo-container">
           <Link to="/">
             {logo?.asset?._ref ? (
-              <img
-                className={`h-12 w-auto ${!isHomePage ? 'nav-dark' : 'nav-text'}`}
-                src={urlFor(logo).url()}
-                alt="Company logo"
-              />
+              <img className={`h-12 w-auto ${isHomePage ? 'nav-text' : ''}`} src={urlFor(logo).url()} alt="Company logo" />
             ) : (
               <div className="h-12 w-28 bg-white"></div>
             )}
           </Link>
         </div>
-
-        {/* Navigation Links */}
-        <div className="hidden md:flex items-center justify-start pl-4">
-          <div className="flex items-center space-x-4">
-            <Link
-              to="/about"
-              className={`text-base-p font-medium pointer-events-auto ${isHomePage ? 'nav-text text-[var(--light-blue-bg)]' : 'nav-dark'}`}
-            >
-              About
-            </Link>
-            <Link
-              to="/support"
-              className={`text-base-p font-medium pointer-events-auto ${isHomePage ? 'nav-text text-[var(--light-blue-bg)]' : 'nav-dark'}`}
-            >
-              Support
-            </Link>
+        
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center space-x-8 mx-6">
+          <div className="flex gap-6">
+            <Link to="/about" className={`text-base-p font-medium ${isHomePage ? 'nav-text' : ''}`}>About</Link>
+            <Link to="/support" className={`text-base-p font-medium ${isHomePage ? 'nav-text' : ''}`}>Support</Link>
           </div>
         </div>
 
-        {/* Right Side Navigation */}
-        <div className="hidden md:flex items-center justify-end pr-4 gap-6">
-          <Button isQuoteButton variant="light" className="text-base-p">
+        {/* Right-side Buttons */}
+        <div className="hidden md:flex items-center space-x-6 mr-6">
+          <Button isQuoteButton variant="dark" className={`${isHomePage ? 'home-nav-quote-btn' : 'nav-quote-btn'} group`}>
             Get a quote
-            <svg 
-              className="ml-2 w-4 h-4" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
+            <svg className="ml-2 w-4 h-4 -rotate-45 transition-transform group-hover:rotate-0" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 8H15M15 8L8 1M15 8L8 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </Button>
-          <a
-            href={`tel:${phoneNumber}`}
-            className="flex items-center pointer-events-auto"
-          >
-            {phoneIcon?.asset?._ref && (
-              <img
-                className={`h-5 w-5 mr-2 ${!isHomePage ? 'nav-dark' : 'nav-text'}`}
-                src={urlFor(phoneIcon).url()}
-                alt="Phone icon"
-              />
-            )}
-            <span className={`text-base-p font-medium ${isHomePage ? 'nav-text text-[var(--light-blue-bg)]' : 'nav-dark'}`}>{phoneNumber}</span>
+          <a href={`tel:${phoneNumber}`} className={`flex items-center ${isHomePage ? 'nav-text' : ''}`}>
+            {phoneIcon?.asset?._ref && <img className={`h-5 w-5 mr-2 ${isHomePage ? 'nav-text' : ''}`} src={urlFor(phoneIcon).url()} alt="Phone icon" />}
+            <span className={`text-base-p font-medium ${isHomePage ? 'nav-text' : ''}`}>{phoneNumber}</span>
           </a>
         </div>
 
-        {/* Mobile menu button */}
         
       </div>
-      <div className="mobile-menu-container flex sm:hidden">
-          <button
-            type="button"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-controls="mobile-menu"
-            aria-expanded={isOpen}
-          >
-            <span className="sr-only">Open main menu</span>
-            {/* Always visible hamburger icon */}
-            <svg
-              className="menu-icon nav-text"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
+      {/* Mobile Menu Button */}
+      <div className="mobile-menu-container">
+          <button onClick={() => setIsOpen(true)}>
+            <svg className={`h-6 w-6 ${isHomePage ? 'nav-text' : ''}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
