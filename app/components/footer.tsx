@@ -1,4 +1,5 @@
 import { Link } from '@remix-run/react'
+import TransitionLink from './TransitionLink'
 import { Footer as FooterType, SanityImage } from '~/types/sanity'
 import Button from './button'
 import { urlFor } from '~/lib/sanity.image'
@@ -27,12 +28,14 @@ export default function Footer({ footer, phoneNumber, phoneIcon }: FooterProps) 
         <div className="text-center mb-12 md:mr-auto md:ml-0 sm:mx-auto">
           <h1 className="text-5xl font-medium mb-6">{footer.heading}</h1>
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
-            <Button isQuoteButton variant="light" className="text-lg group">
-              {footer.buttonText}
-              <svg className="ml-2 w-4 h-4 -rotate-45 transition-transform group-hover:rotate-0" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 8H15M15 8L8 1M15 8L8 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </Button>
+            <TransitionLink to="/quote">
+              <Button isQuoteButton variant="light" className="text-lg group">
+                {footer.buttonText}
+                <svg className="ml-2 w-4 h-4 -rotate-45 transition-transform group-hover:rotate-0" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 8H15M15 8L8 1M15 8L8 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </Button>
+            </TransitionLink>
             <div className="flex items-center gap-2">
               <p className="text-xl max-w-2xl md:mx-0">{footer.paragraph}</p>
               <div className="flex items-center gap-2">
@@ -55,8 +58,8 @@ export default function Footer({ footer, phoneNumber, phoneIcon }: FooterProps) 
           
           {/* Navigation links */}
           <div className="flex gap-12 mb-4 md:mb-0 text-lg">
-            <Link to="/about" className="hover:text-white transition-colors">About</Link>
-            <Link to="/support" className="hover:text-white transition-colors">Support</Link>
+            <TransitionLink to="/about" className="hover:text-white transition-colors">About</TransitionLink>
+            <TransitionLink to="/support" className="hover:text-white transition-colors">Support</TransitionLink>
           </div>
 
           {/* Social links */}

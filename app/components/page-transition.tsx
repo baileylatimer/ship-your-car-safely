@@ -19,6 +19,9 @@ export default function PageTransition({ children }: PageTransitionProps) {
     if (location.pathname !== prevPathRef.current && !isAnimatingRef.current && timeline) {
       isAnimatingRef.current = true;
 
+      // Scroll to top
+      window.scrollTo(0, 0);
+
       // Update the shared timeline
       timeline.clear();
 
@@ -27,11 +30,7 @@ export default function PageTransition({ children }: PageTransitionProps) {
         .to('.transition-block', {
           yPercent: (i) => (i === 0 ? -100 : 100),
           duration: 0.6,
-          ease: 'power2.inOut',
-          onComplete: () => {
-            isAnimatingRef.current = false;
-            prevPathRef.current = location.pathname;
-          }
+          ease: 'power2.inOut'
         })
         // Fade out text slightly before blocks finish
         .to('.page-transition-text', {
@@ -39,9 +38,20 @@ export default function PageTransition({ children }: PageTransitionProps) {
           y: -20,
           duration: 0.3,
           ease: 'power2.in'
-        }, "-=0.7"); // Start 0.1s before blocks finish
+        }, "-=0.7") // Start 0.1s before blocks finish
+        .eventCallback('onComplete', () => {
+          isAnimatingRef.current = false;
+          prevPathRef.current = location.pathname;
+        });
 
       timeline.play();
+
+      // Cleanup function
+      return () => {
+        if (timeline) {
+          timeline.kill();
+        }
+      };
     }
   }, [location, timeline]);
 

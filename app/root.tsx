@@ -11,6 +11,7 @@ import {
 } from "@remix-run/react";
 import { TransitionProvider } from "./context/TransitionContext";
 import { useEffect } from "react";
+import { useTransitionNavigation } from "./hooks/useTransitionNavigation";
 import Footer from "./components/footer";
 import PageTransition from "./components/page-transition";
 import Navbar from "./components/navbar";
@@ -52,6 +53,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function App() {
   const { navbar, footer } = useLoaderData<typeof loader>();
   const location = useLocation();
+
+  // Initialize transition navigation
+  useTransitionNavigation();
 
   useEffect(() => {
     if (location.state?.scrollToHero) {

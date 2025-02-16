@@ -1,6 +1,5 @@
-import { useContext } from 'react';
-import { Link, useNavigate } from '@remix-run/react';
-import { TransitionContext } from '../context/TransitionContext';
+import { Link, type LinkProps } from '@remix-run/react';
+import { useTransitionNavigation } from '../hooks/useTransitionNavigation';
 
 interface TransitionLinkProps {
   to: string;
@@ -9,21 +8,12 @@ interface TransitionLinkProps {
   onClick?: () => void;
 }
 
-export default function TransitionLink({ to, children, className, onClick }: TransitionLinkProps) {
-  const navigate = useNavigate();
-  const { playCloseAnimation } = useContext(TransitionContext);
+export function TransitionLink({ to, children, className, onClick }: TransitionLinkProps) {
+  const handleNavigation = useTransitionNavigation();
 
-  const handleClick = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    
-    // Call the onClick handler if provided
+  const handleClick = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     onClick?.();
-    
-    // Play the closing animation first
-    await playCloseAnimation(to);
-    
-    // Then navigate to the new route
-    navigate(to);
+    await handleNavigation(to, e);
   };
 
   return (
@@ -32,3 +22,22 @@ export default function TransitionLink({ to, children, className, onClick }: Tra
     </Link>
   );
 }
+
+// Higher-order component to add transition to any Link
+export function withTransition(Component: typeof Link) {
+  return function TransitionComponent({ to, ...props }: LinkProps) {
+    const handleNavigation = useTransitionNavigation();
+
+    const handleClick = async (e: React.MouseEvent<HTMLAnchorElement>) => {
+      props.onClick?.(e);
+      await handleNavigation(to.toString(), e);
+    };
+
+    return <Component to={to} {...props} onClick={handleClick} />;
+  };
+}
+
+// Pre-wrapped Link component
+export const TransitionWrappedLink = withTransition(Link);
+
+export default TransitionLink;

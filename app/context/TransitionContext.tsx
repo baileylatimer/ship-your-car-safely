@@ -32,9 +32,9 @@ export const TransitionProvider = ({ children }: { children: React.ReactNode }) 
   const textRef = useRef<HTMLHeadingElement>(null);
 
   const playCloseAnimation = async (nextPath: string) => {
-    return new Promise<void>((resolve) => {
-      if (!timeline) return resolve();
+    if (!timeline) return;
 
+    return new Promise<void>((resolve) => {
       // Reset any existing animations
       timeline.clear();
       
@@ -65,7 +65,12 @@ export const TransitionProvider = ({ children }: { children: React.ReactNode }) 
           duration: 0.3,
           ease: 'power2.out'
         }, "-=0.2") // Start slightly before the blocks finish
-        .to({}, { duration: 0.1, onComplete: resolve }); // Small pause
+        .to({}, { duration: 0.2 }); // Hold for a moment
+
+      // Play the animation and ensure it completes
+      timeline.eventCallback('onComplete', () => {
+        setTimeout(resolve, 100); // Small buffer after animation
+      });
 
       timeline.play();
     });

@@ -1,5 +1,7 @@
 import { useTextAnimation } from "~/hooks/useTextAnimation";
 import Button from './button';
+import CountUp from 'react-countup';
+import { useInView } from 'react-intersection-observer';
 
 interface Stat {
   value: string;
@@ -13,6 +15,11 @@ interface StatisticsSectionProps {
 }
 
 export default function StatisticsSection({ heading, description, stats }: StatisticsSectionProps) {
+  const { ref: statsRef, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1
+  });
+
   return (
     <section className="py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -50,15 +57,36 @@ export default function StatisticsSection({ heading, description, stats }: Stati
             </div>
           </div>
 
-          <div className="mt-16 lg:mt-0 grid grid-cols-2 gap-[10px] w-full lg:grid lg:grid-cols-2 lg:gap-[8px] lg:gap-y-2">
+          <div ref={statsRef} className="mt-16 lg:mt-0 grid grid-cols-2 gap-[10px] w-full lg:grid lg:grid-cols-2 lg:gap-[8px] lg:gap-y-2">
             {stats.map((stat, index) => (
               <div 
                 key={index}
                 className={`bg-light-blue-bg rounded-[30px] px-[12px] py-5 lg:px-[30px] lg:pt-10 lg:pb-5 border border-[#17283D] w-full lg:w-[320px]`}
               >
-                <div className="flex items-start font-medium text-[#17283D] mb-2 whitespace-nowrap">
-                  <span className="text-stat-mobile lg:text-stat leading-none">{stat.value.replace(/[+%]/g, '')}</span>
-                  <span className="text-symbol-mobile lg:text-symbol leading-none mt-1">{stat.value.match(/[+%]/)?.[0] || ''}</span>
+                <div className="flex items-center font-medium text-[#17283D] mb-2 whitespace-nowrap">
+                  <span className="text-stat-mobile lg:text-stat leading-none">
+                    {inView ? (
+                      <CountUp
+                        start={0}
+                        end={Number(stat.value.replace(/[^0-9]/g, ''))}
+                        duration={2}
+                        separator=","
+                      >
+                        {({ countUpRef }) => (
+                          <span ref={countUpRef} />
+                        )}
+                      </CountUp>
+                    ) : (
+                      <span>0</span>
+                    )}
+                    {stat.value.includes('K') && 'K'}
+                    {stat.value.includes('hrs') && 'hrs'}
+                  </span>
+                  {(stat.value.includes('+') || stat.value.includes('%')) && (
+                    <span className="text-symbol-mobile lg:text-symbol leading-none mt-1">
+                      {stat.value.includes('+') ? '+' : '%'}
+                    </span>
+                  )}
                 </div>
                 <p className="text-base-p font-book text-[#17283D]/80">
                   {stat.label}
