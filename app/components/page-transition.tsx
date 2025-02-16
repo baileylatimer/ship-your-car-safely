@@ -32,7 +32,14 @@ export default function PageTransition({ children }: PageTransitionProps) {
             isAnimatingRef.current = false;
             prevPathRef.current = location.pathname;
           }
-        });
+        })
+        // Fade out text slightly before blocks finish
+        .to('.page-transition-text', {
+          opacity: 0,
+          y: -20,
+          duration: 0.3,
+          ease: 'power2.in'
+        }, "-=0.7"); // Start 0.1s before blocks finish
 
       timeline.play();
     }

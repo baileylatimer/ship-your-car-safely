@@ -55,7 +55,7 @@ export const TransitionProvider = ({ children }: { children: React.ReactNode }) 
         // First bring in the blocks
         .to([leftBlockRef.current, rightBlockRef.current], {
           yPercent: 0,
-          duration: 0.5,
+          duration: 0.6,
           ease: 'power2.inOut'
         })
         // Near the end, show the text
@@ -65,15 +65,7 @@ export const TransitionProvider = ({ children }: { children: React.ReactNode }) 
           duration: 0.3,
           ease: 'power2.out'
         }, "-=0.2") // Start slightly before the blocks finish
-        .to({}, { duration: 0.0 }) // Small pause
-        // Immediately hide the text
-        .to(textRef.current, {
-          opacity: 0,
-          y: -20,
-          duration: 0.6,
-          ease: 'power2.in',
-          onComplete: resolve
-        });
+        .to({}, { duration: 0.1, onComplete: resolve }); // Small pause
 
       timeline.play();
     });
@@ -85,7 +77,7 @@ export const TransitionProvider = ({ children }: { children: React.ReactNode }) 
         <div ref={leftBlockRef} className="absolute top-0 left-0 w-1/2 h-full transition-block" style={{ backgroundColor: '#111E2E' }} />
         <div ref={rightBlockRef} className="absolute bottom-0 right-0 w-1/2 h-full transition-block" style={{ backgroundColor: '#111E2E' }} />
         <div className="absolute inset-0 flex items-center justify-center">
-          <h1 ref={textRef} className="text-[var(--light-blue-bg)] text-[70px] font-bold opacity-0" />
+          <h1 ref={textRef} className="text-[var(--light-blue-bg)] text-[70px] font-bold opacity-0 page-transition-text" />
         </div>
       </div>
       {children}
