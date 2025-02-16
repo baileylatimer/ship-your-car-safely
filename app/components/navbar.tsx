@@ -6,6 +6,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
 import { urlFor } from '~/lib/sanity.image'
 import Button from './button'
+import TransitionLink from './TransitionLink'
 import '../styles/navbar.css'
 
 if (typeof window !== 'undefined') {
@@ -47,7 +48,7 @@ function MobileMenu({ isOpen, onClose, phoneNumber, navLinks, logo, phoneIcon }:
 
         {/* Logo */}
         <div className="mobile-menu-logo">
-          <Link to="/" onClick={onClose}>
+          <TransitionLink to="/" className="block" onClick={onClose}>
             {logo?.asset?._ref && (
               <img
                 className="h-12 w-auto"
@@ -55,25 +56,25 @@ function MobileMenu({ isOpen, onClose, phoneNumber, navLinks, logo, phoneIcon }:
                 alt="Company logo"
               />
             )}
-          </Link>
+          </TransitionLink>
         </div>
         <div className="flex flex-col h-full justify-between p-20 pt-0">
           {/* Navigation Links */}
           <div className="mobile-menu-links">
-            <Link
+            <TransitionLink
               to="/about"
               className="mobile-nav-link"
               onClick={onClose}
             >
               About
-            </Link>
-            <Link
+            </TransitionLink>
+            <TransitionLink
               to="/support"
               className="mobile-nav-link"
               onClick={onClose}
             >
               Support
-            </Link>
+            </TransitionLink>
           </div>
           <div className="flex flex-col items-center">
             {/* Get a Quote Button */}
@@ -194,20 +195,20 @@ export default function Navbar({ logo, phoneNumber, phoneIcon, navLinks }: Navba
       <div className="nav-content mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
         {/* Logo */}
         <div className="logo-container">
-          <Link to="/">
+          <TransitionLink to="/">
             {logo?.asset?._ref ? (
               <img className={`h-12 w-auto ${isHomePage ? 'nav-text' : ''}`} src={urlFor(logo).url()} alt="Company logo" />
             ) : (
               <div className="h-12 w-28 bg-white"></div>
             )}
-          </Link>
+          </TransitionLink>
         </div>
         
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-8 mx-6">
           <div className="flex gap-6">
-            <Link to="/about" className={`text-base-p font-medium ${isHomePage ? 'nav-text' : ''}`}>About</Link>
-            <Link to="/support" className={`text-base-p font-medium ${isHomePage ? 'nav-text' : ''}`}>Support</Link>
+            <TransitionLink to="/about" className={`text-base-p font-medium ${isHomePage ? 'nav-text' : ''}`}>About</TransitionLink>
+            <TransitionLink to="/support" className={`text-base-p font-medium ${isHomePage ? 'nav-text' : ''}`}>Support</TransitionLink>
           </div>
         </div>
 
@@ -224,17 +225,16 @@ export default function Navbar({ logo, phoneNumber, phoneIcon, navLinks }: Navba
             <span className={`text-base-p font-medium ${isHomePage ? 'nav-text' : ''}`}>{phoneNumber}</span>
           </a>
         </div>
-
-        
       </div>
+
       {/* Mobile Menu Button */}
       <div className="mobile-menu-container">
-          <button onClick={() => setIsOpen(true)}>
-            <svg className={`h-6 w-6 ${isHomePage ? 'nav-text' : ''}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        </div>
+        <button onClick={() => setIsOpen(true)}>
+          <svg className={`h-6 w-6 ${isHomePage ? 'nav-text' : ''}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
       <MobileMenu 
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}

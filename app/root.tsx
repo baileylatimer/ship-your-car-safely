@@ -9,9 +9,10 @@ import {
   useLoaderData,
   useLocation
 } from "@remix-run/react";
+import { TransitionProvider } from "./context/TransitionContext";
 import { useEffect } from "react";
 import Footer from "./components/footer";
-import { PageTransition } from "./components/page-transition";
+import PageTransition from "./components/page-transition";
 import Navbar from "./components/navbar";
 import { urlFor } from "~/lib/sanity.image";
 import "~/styles/tailwind.css";
@@ -74,15 +75,19 @@ export default function App() {
         <Links />
       </head>
       <body>
-        {navbar && <Navbar {...navbar} />}
-        <PageTransition />
-        {footer && navbar && (
-          <Footer 
-            footer={footer}
-            phoneNumber={navbar.phoneNumber}
-            phoneIcon={navbar.phoneIcon}
-          />
-        )}
+        <TransitionProvider>
+          <PageTransition>
+            {navbar && <Navbar {...navbar} />}
+            <Outlet />
+            {footer && navbar && (
+              <Footer 
+                footer={footer}
+                phoneNumber={navbar.phoneNumber}
+                phoneIcon={navbar.phoneIcon}
+              />
+            )}
+          </PageTransition>
+        </TransitionProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
