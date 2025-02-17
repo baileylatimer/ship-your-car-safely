@@ -1,10 +1,11 @@
-import { useLocation, useNavigate } from '@remix-run/react';
+import { useLocation } from '@remix-run/react';
+import { useTransitionNavigation } from './useTransitionNavigation';
 
 export function useQuoteNavigation() {
   const location = useLocation();
-  const navigate = useNavigate();
+  const handleTransitionNavigation = useTransitionNavigation();
 
-  const handleQuoteClick = () => {
+  const handleQuoteClick = async () => {
     if (location.pathname === '/') {
       // If we're on home page, smooth scroll to hero
       const heroElement = document.querySelector('#hero');
@@ -12,10 +13,8 @@ export function useQuoteNavigation() {
         heroElement.scrollIntoView({ behavior: 'smooth' });
       }
     } else {
-      // If we're on another page, navigate to home and then scroll to hero
-      navigate('/', { 
-        state: { scrollToHero: true }
-      });
+      // If we're on another page, use transition navigation to home
+      await handleTransitionNavigation('/');
     }
   };
 

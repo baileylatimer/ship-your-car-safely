@@ -25,20 +25,22 @@ export default function PageTransition({ children }: PageTransitionProps) {
       // Update the shared timeline
       timeline.clear();
 
-      // Move the blocks away
+      // Move the blocks away with matching duration
       timeline
         .to('.transition-block', {
           yPercent: (i) => (i === 0 ? -100 : 100),
           duration: 0.6,
-          ease: 'power2.inOut'
+          ease: 'power2.inOut',
         })
-        // Fade out text slightly before blocks finish
+        // Fade out text with matching duration
         .to('.page-transition-text', {
           opacity: 0,
           y: -20,
           duration: 0.3,
           ease: 'power2.in'
-        }, "-=0.7") // Start 0.1s before blocks finish
+        }, "-=0.7") // Start earlier to match the enter animation timing
+        // Add a matching pause at the end
+        
         .eventCallback('onComplete', () => {
           isAnimatingRef.current = false;
           prevPathRef.current = location.pathname;

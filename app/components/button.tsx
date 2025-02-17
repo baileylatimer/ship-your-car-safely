@@ -1,5 +1,6 @@
 import { Link } from '@remix-run/react'
 import { useQuoteNavigation } from '~/hooks/useQuoteNavigation'
+import { useTransitionNavigation } from '~/hooks/useTransitionNavigation'
 
 interface ButtonProps {
   children: React.ReactNode
@@ -28,11 +29,16 @@ export default function Button({ children, variant = 'dark', className = '', to,
     )
   }
 
+  const handleTransitionNavigation = useTransitionNavigation();
+
   if (to) {
     return (
-      <Link to={to} className={combinedClassName}>
+      <button 
+        onClick={(e) => handleTransitionNavigation(to, e)} 
+        className={combinedClassName}
+      >
         {children}
-      </Link>
+      </button>
     )
   }
 

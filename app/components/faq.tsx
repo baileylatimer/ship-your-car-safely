@@ -1,7 +1,6 @@
 import { useRef, useEffect, useState } from 'react'
 import { urlFor } from '~/lib/sanity.image'
 import type { FaqItem } from '~/types/sanity'
-import gsap from 'gsap'
 
 interface FaqProps {
   items: FaqItem[]
@@ -11,28 +10,75 @@ export default function Faq({ items }: FaqProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
   const lineRefs = useRef<(HTMLDivElement | null)[]>([])
   const contentRefs = useRef<(HTMLDivElement | null)[]>([])
+  const titleRefs = useRef<(HTMLHeadingElement | null)[]>([])
 
   useEffect(() => {
-    // Initialize GSAP animations
-    contentRefs.current.forEach((content, index) => {
-      const line = lineRefs.current[index]
+    if (typeof window === "undefined") return;
 
-      if (!line || !content) return
+    const initAnimation = async () => {
+      const [gsap, ScrollTrigger] = await Promise.all([
+        import("gsap"),
+        import("gsap/ScrollTrigger")
+      ]);
 
-      // Reset initial states
-      gsap.set(content, { 
-        height: 0, 
-        opacity: 0
+      gsap.default.registerPlugin(ScrollTrigger.default);
+
+      // Initialize content and line states
+      contentRefs.current.forEach((content, index) => {
+        const line = lineRefs.current[index]
+
+        if (!line || !content) return
+
+        gsap.default.set(content, { 
+          height: 0, 
+          opacity: 0
+        })
+        gsap.default.set(line, { 
+          width: '100%',
+          position: 'absolute',
+          bottom: 0
+        })
       })
-      gsap.set(line, { 
-        width: '100%', 
-        top: '70px',
-        position: 'absolute'
-      })
-    })
-  }, [])
 
-  const handleClick = (index: number) => {
+      // Initialize title animations
+      titleRefs.current.forEach((title) => {
+        if (!title) return;
+        
+        // Set initial state
+        gsap.default.set(title, {
+          opacity: 0,
+          y: 50
+        });
+        
+        // Animate to final state
+        gsap.default.to(title, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: title,
+            start: "top 80%",
+            toggleActions: "play none none none"
+          }
+        });
+      });
+    };
+
+    initAnimation();
+
+    return () => {
+      import("gsap/ScrollTrigger").then((ScrollTrigger) => {
+        ScrollTrigger.default.getAll().forEach(trigger => trigger.kill());
+      });
+    };
+  }, []);
+
+  const handleClick = async (index: number) => {
+    if (typeof window === "undefined") return;
+    
+    const gsap = (await import("gsap")).default;
+
     if (activeIndex === index) {
       // Close current item
       closeItem(index)
@@ -54,8 +100,7 @@ export default function Faq({ items }: FaqProps) {
           ease: 'power3.inOut'
         })
         .to(lineRefs.current[activeIndex], {
-          top: '70px',
-          bottom: 'auto',
+          bottom: 0,
           duration: 0.25,
           ease: 'power3.inOut',
           onComplete: () => {
@@ -72,7 +117,10 @@ export default function Faq({ items }: FaqProps) {
     }
   }
 
-  const openItem = (index: number) => {
+  const openItem = async (index: number) => {
+    if (typeof window === "undefined") return;
+    
+    const gsap = (await import("gsap")).default;
     const line = lineRefs.current[index]
     const content = contentRefs.current[index]
 
@@ -86,7 +134,6 @@ export default function Faq({ items }: FaqProps) {
 
     // Create timeline with all animations
     tl.to(line, {
-      top: 'auto',
       bottom: 0,
       duration: 0.25,
       ease: 'power3.inOut'
@@ -103,7 +150,10 @@ export default function Faq({ items }: FaqProps) {
     }, '-=0.1')
   }
 
-  const closeItem = (index: number) => {
+  const closeItem = async (index: number) => {
+    if (typeof window === "undefined") return;
+    
+    const gsap = (await import("gsap")).default;
     const line = lineRefs.current[index]
     const content = contentRefs.current[index]
 
@@ -123,8 +173,7 @@ export default function Faq({ items }: FaqProps) {
       ease: 'power3.inOut'
     }, '-=0.1')
     .to(line, {
-      top: '70px',
-      bottom: 'auto',
+      bottom: 0,
       duration: 0.25,
       ease: 'power3.inOut'
     }, '-=0.25')
@@ -139,13 +188,20 @@ export default function Faq({ items }: FaqProps) {
           onClick={() => handleClick(index)}
         >
           <div className="relative">
-            <h3 className="text-[39px] leading-tight text-black mb-4">{item.title}</h3>
-            
-            {/* Line element */}
-            <div 
-              ref={el => lineRefs.current[index] = el}
-              className="absolute left-0 right-0 border-b border-[#17283D]"
-            />
+            <div className="relative pb-8">
+              <h3 
+                ref={el => titleRefs.current[index] = el}
+                className="text-[39px] leading-tight text-black"
+              >
+                {item.title}
+              </h3>
+              
+              {/* Line element */}
+              <div 
+                ref={el => lineRefs.current[index] = el}
+                className="absolute left-0 right-0 bottom-0 border-b border-[#17283D]"
+              />
+            </div>
 
             {/* Content container */}
             <div

@@ -90,7 +90,21 @@ export async function loader() {
     
     if (!data) {
       console.warn('No data found in Sanity');
-      return json({});
+      return json({
+        navbar: null,
+        footer: null,
+        error: 'No data found in Sanity'
+      });
+    }
+
+    // Ensure required data exists
+    if (!data.navbar || !data.footer) {
+      console.warn('Missing required navbar or footer data');
+      return json({
+        navbar: null,
+        footer: null,
+        error: 'Missing required navbar or footer data'
+      });
     }
 
     return json(data);
@@ -102,9 +116,10 @@ export async function loader() {
     });
     
     return json({
+      navbar: null,
+      footer: null,
       error: 'Failed to fetch data',
-      details: error instanceof Error ? error.message : 'Unknown error occurred',
-      projectId: process.env.SANITY_PROJECT_ID || 'uxddufsz'
-    }, { status: 500 });
+      details: error instanceof Error ? error.message : 'Unknown error occurred'
+    });
   }
 }

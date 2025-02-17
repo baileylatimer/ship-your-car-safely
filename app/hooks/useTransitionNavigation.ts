@@ -7,7 +7,7 @@ export function useTransitionNavigation() {
   const location = useLocation();
   const { playCloseAnimation } = useContext(TransitionContext);
 
-  const handleNavigation = useCallback(async (to: string, e?: React.MouseEvent) => {
+  const handleNavigation = useCallback(async (to: string, e?: React.MouseEvent, state?: any) => {
     if (e) {
       e.preventDefault();
     }
@@ -16,11 +16,11 @@ export function useTransitionNavigation() {
       // Play the closing animation and wait for it to complete
       await playCloseAnimation(to);
       
-      // Small delay to ensure animation completes
-      await new Promise(resolve => setTimeout(resolve, 600));
+      // Add a delay to ensure animation completes
+      await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // Then navigate to the new route
-      navigate(to);
+      // Then navigate
+      navigate(to, { state });
     } catch (error) {
       console.error('Navigation error:', error);
     }

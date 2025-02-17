@@ -50,29 +50,37 @@ export const TransitionProvider = ({ children }: { children: React.ReactNode }) 
         textRef.current.textContent = pageText;
       }
 
-      // Create the closing animation
+      // Kill any running animations
+      gsap.killTweensOf([leftBlockRef.current, rightBlockRef.current, textRef.current]);
+      
+      // Create the closing animation with longer durations
       timeline
-        // First bring in the blocks
+        .addLabel('start')
+        // First bring in the blocks with longer duration
         .to([leftBlockRef.current, rightBlockRef.current], {
           yPercent: 0,
           duration: 0.6,
-          ease: 'power2.inOut'
+          ease: 'power2.inOut',
         })
-        // Near the end, show the text
+        // Show the text with longer duration
         .to(textRef.current, {
           opacity: 1,
           y: 0,
           duration: 0.3,
           ease: 'power2.out'
-        }, "-=0.2") // Start slightly before the blocks finish
-        .to({}, { duration: 0.2 }); // Hold for a moment
+        }, "-=0.2")
+        .addLabel('end')
+        // Hold the animation at the end
+        .to({}, { duration: 0.6 });
 
       // Play the animation and ensure it completes
       timeline.eventCallback('onComplete', () => {
-        setTimeout(resolve, 100); // Small buffer after animation
+        // Add a small delay before resolving to ensure animation is fully complete
+        setTimeout(resolve, 100);
       });
 
-      timeline.play();
+      // Play from the start
+      timeline.seek('start').play();
     });
   };
 
