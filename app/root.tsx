@@ -13,7 +13,6 @@ import {
 import { TransitionProvider } from "./context/TransitionContext";
 import { useEffect, useRef } from "react";
 import { useTransitionNavigation } from "./hooks/useTransitionNavigation";
-import Footer from "./components/footer";
 import PageTransition from "./components/page-transition";
 import Navbar from "./components/navbar";
 import { urlFor } from "~/lib/sanity.image";
@@ -46,31 +45,27 @@ export const loader: LoaderFunction = async ({ request }) => {
     if (data.error) {
       console.error('API Error:', data.error, data.details);
       return json({ 
-        navbar: null, 
-        footer: null,
+        navbar: null,
         error: data.error 
       });
     }
 
     // Handle empty data case
-    if (!data.navbar || !data.footer) {
+    if (!data.navbar) {
       console.warn('Missing required data from API');
       return json({ 
-        navbar: null, 
-        footer: null,
+        navbar: null,
         error: 'Missing required data' 
       });
     }
 
     return json({ 
-      navbar: data.navbar,
-      footer: data.footer 
+      navbar: data.navbar
     });
   } catch (error) {
     console.error('Error fetching data:', error);
     return json({ 
-      navbar: null, 
-      footer: null,
+      navbar: null,
       error: error instanceof Error ? error.message : 'Unknown error occurred'
     });
   }
@@ -83,13 +78,12 @@ interface LoaderData {
     phoneIcon: SanityImage;
     navLinks: NavLink[];
   } | null;
-  footer: any | null;
 }
 
 import type { NavLink, SanityImage } from '~/types/sanity';
 
 export default function App() {
-  const { navbar, footer } = useLoaderData<typeof loader>() as LoaderData;
+  const { navbar } = useLoaderData<typeof loader>() as LoaderData;
   const location = useLocation();
   const urlForRef = useRef(urlFor);
 
@@ -124,13 +118,6 @@ export default function App() {
           <PageTransition>
             <Outlet />
           </PageTransition>
-          {footer && navbar && (
-            <Footer 
-              footer={footer}
-              phoneNumber={navbar.phoneNumber}
-              phoneIcon={navbar.phoneIcon}
-            />
-          )}
         </TransitionProvider>
         <ScrollRestoration />
         <Scripts />
