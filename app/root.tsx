@@ -120,17 +120,17 @@ export default function App() {
       </head>
       <body>
         <TransitionProvider>
+          {navbar && <Navbar {...navbar} />}
           <PageTransition>
-            {navbar && <Navbar {...navbar} />}
             <Outlet />
-            {footer && navbar && (
-              <Footer 
-                footer={footer}
-                phoneNumber={navbar.phoneNumber}
-                phoneIcon={navbar.phoneIcon}
-              />
-            )}
           </PageTransition>
+          {footer && navbar && (
+            <Footer 
+              footer={footer}
+              phoneNumber={navbar.phoneNumber}
+              phoneIcon={navbar.phoneIcon}
+            />
+          )}
         </TransitionProvider>
         <ScrollRestoration />
         <Scripts />

@@ -5,6 +5,7 @@ import { createClient } from '@sanity/client';
 import { useTextAnimation } from "~/hooks/useTextAnimation";
 import Navbar from "~/components/navbar";
 import Faq from "~/components/faq";
+import Footer from "~/components/footer";
 import "../styles/index.css";
 
 const sanityClient = createClient({
@@ -95,15 +96,14 @@ export default function Support() {
   }
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Navbar 
         logo={navbar.logo}
         phoneNumber={navbar.phoneNumber}
         phoneIcon={navbar.phoneIcon}
         navLinks={navbar.links}
-        isHomePage={false}
       />
-      <div className="min-h-screen">
+      <div className="flex-grow">
         <div className="mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <h1 
             ref={useTextAnimation(supportHeader.heading)}
@@ -114,6 +114,11 @@ export default function Support() {
           <Faq items={faq.items} />
         </div>
       </div>
+      <Footer 
+        footer={footer}
+        phoneNumber={navbar.phoneNumber}
+        phoneIcon={navbar.phoneIcon}
+      />
     </div>
   );
 }

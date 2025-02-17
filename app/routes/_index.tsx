@@ -64,13 +64,6 @@ export default function Index() {
 
   return (
     <main>
-      <Navbar 
-        logo={navbar.logo}
-        phoneNumber={navbar.phoneNumber}
-        phoneIcon={navbar.phoneIcon}
-        navLinks={navbar.links}
-        isHomePage={true}
-      />
       <Hero title={hero.title} backgroundImage={hero.backgroundImage} />
       <StatisticsSection 
         heading={statistics.heading}

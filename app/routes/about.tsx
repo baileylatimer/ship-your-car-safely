@@ -4,6 +4,7 @@ import { useLoaderData } from "@remix-run/react";
 import { createClient } from '@sanity/client';
 import { useTextAnimation } from "~/hooks/useTextAnimation";
 import Navbar from "~/components/navbar";
+import Footer from "~/components/footer";
 import AboutVideo from "~/components/about-video";
 import InfoAbout from "~/components/info-about";
 import ImagesAbout from "~/components/images-about";
@@ -127,7 +128,6 @@ export default function About() {
         phoneNumber={navbar.phoneNumber}
         phoneIcon={navbar.phoneIcon}
         navLinks={navbar.links}
-        isHomePage={false}
       />
       <div className="flex-grow">
         <div className="mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -147,6 +147,11 @@ export default function About() {
           </div>
         </div>
       </div>
+      <Footer 
+        footer={footer}
+        phoneNumber={navbar.phoneNumber}
+        phoneIcon={navbar.phoneIcon}
+      />
     </div>
   );
 }
