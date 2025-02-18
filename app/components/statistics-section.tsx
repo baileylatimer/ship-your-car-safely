@@ -22,7 +22,7 @@ export default function StatisticsSection({ heading, description, stats }: Stati
 
   return (
     <section className="sm:py-10 py-5">
-      <div className="max-w-7xl mx-auto ">
+      <div className=" mx-auto px-4 sm:px-6 lg:px-8">
         <h2 
           ref={useTextAnimation(heading)}
           className="text-h2-mobile md:text-h2 font-medium mb-16 text-[#17283D]"
