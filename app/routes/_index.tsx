@@ -1,9 +1,15 @@
 import type { MetaFunction, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import Hero from "~/components/hero";
+import Navbar from "~/components/navbar";
 import StatisticsSection from "~/components/statistics-section";
 import VideoSection from "~/components/video-section";
 import Process from "~/components/process";
+import ServicesSection from "~/components/services";
+import FullWidthImage from "~/components/full-width-image";
+import TestimonialsSection from "~/components/testimonials";
+import Footer from "~/components/footer";
+import "../styles/index.css";
 
 export const meta: MetaFunction = () => {
   return [
@@ -24,6 +30,11 @@ export const loader: LoaderFunction = async ({ request }) => {
       statistics: data.statistics,
       videoSection: data.videoSection,
       process: data.process,
+      services: data.services,
+      fullWidthImage: data.fullWidthImage,
+      testimonials: data.testimonials,
+      navbar: data.navbar,
+      footer: data.footer,
       error: null 
     };
   } catch (error: unknown) {
@@ -33,36 +44,60 @@ export const loader: LoaderFunction = async ({ request }) => {
       statistics: null,
       videoSection: null,
       process: null,
+      services: null,
+      fullWidthImage: null,
+      testimonials: null,
+      navbar: null,
+      footer: null,
       error: (error as Error).message || 'Failed to fetch data' 
     };
   }
 };
 
 export default function Index() {
-  const { hero, statistics, videoSection, process, error } = useLoaderData<typeof loader>();
+  const { hero, statistics, videoSection, process, services, fullWidthImage, testimonials, navbar, footer, error } = useLoaderData<typeof loader>();
 
   if (error) {
-    return <div className="text-red-500">Error: {error}</div>;
+    return <div className="text-[#17283D]">Error: {error}</div>;
   }
 
-  if (!hero || !statistics || !videoSection || !process) {
+  if (!hero || !statistics || !videoSection || !process || !services || !navbar || !footer) {
     return <div>Loading...</div>;
   }
 
   return (
-    <main>
-      <Hero title={hero.title} backgroundImage={hero.backgroundImage} />
-      <StatisticsSection 
-        heading={statistics.heading}
-        description={statistics.description}
-        stats={statistics.stats}
+    <div className="flex flex-col min-h-screen">
+      <main className="flex-grow">
+        <Hero title={hero.title} backgroundImage={hero.backgroundImage} />
+        <StatisticsSection 
+          heading={statistics.heading}
+          description={statistics.description}
+          stats={statistics.stats}
+        />
+        <VideoSection 
+          title={videoSection.title}
+          videoUrl={videoSection.videoUrl}
+          coverImage={videoSection.coverImage}
+        />
+        <Process />
+        <ServicesSection 
+          title={services.title}
+          description={services.description}
+          services={services.services}
+        />
+        {fullWidthImage && (
+          <FullWidthImage
+            image={fullWidthImage.image}
+            alt={fullWidthImage.alt}
+          />
+        )}
+        {testimonials && <TestimonialsSection testimonials={testimonials} />}
+      </main>
+      <Footer 
+        footer={footer}
+        phoneNumber={navbar.phoneNumber}
+        phoneIcon={navbar.phoneIcon}
       />
-      <Process />
-      <VideoSection 
-        title={videoSection.title}
-        videoUrl={videoSection.videoUrl}
-        coverImage={videoSection.coverImage}
-      />
-    </main>
+    </div>
   );
 }
