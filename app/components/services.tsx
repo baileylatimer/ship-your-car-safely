@@ -49,7 +49,7 @@ export default function ServicesSection({ title, description, services }: Servic
           <div className="grid grid-cols-4 gap-[12px] [&>*]:mb-[10px]">
             {/* First row: Title/description + 2 cards */}
             <div className="col-span-2">
-              <h1 className="text-6xl font-bold mb-4">{title}</h1>
+              <h1 className="text-6xl font-medium mb-4">{title}</h1>
               <p className="text-xl">{description}</p>
             </div>
             {services.slice(0, 2).map((service, index) => (
@@ -73,7 +73,7 @@ export default function ServicesSection({ title, description, services }: Servic
         {/* Mobile Layout */}
         <div className="flex  p-3 flex-col md:hidden">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold mb-4">{title}</h1>
+            <h1 className="text-4xl font-medium mb-4">{title}</h1>
             <p className="text-lg">{description}</p>
           </div>
           <div className="w-full">

@@ -90,7 +90,7 @@ export const TransitionProvider = ({ children }: { children: React.ReactNode }) 
         <div ref={leftBlockRef} className="absolute top-0 left-0 w-1/2 h-full transition-block" style={{ backgroundColor: '#111E2E' }} />
         <div ref={rightBlockRef} className="absolute bottom-0 right-0 w-1/2 h-full transition-block" style={{ backgroundColor: '#111E2E' }} />
         <div className="absolute inset-0 flex items-center justify-center">
-          <h1 ref={textRef} className="text-[var(--light-blue-bg)] text-[70px] font-bold opacity-0 page-transition-text" />
+          <h1 ref={textRef} className="text-[var(--light-blue-bg)] text-[70px] font-medium opacity-0 page-transition-text" />
         </div>
       </div>
       {children}

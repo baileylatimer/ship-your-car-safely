@@ -153,7 +153,7 @@ export default function TestimonialsSection({ testimonials = defaultTestimonials
         </svg>
       </button>
       <div> {/* No constraints */}
-  <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center z-11 text-[#17283D]">
+  <h2 className="text-4xl md:text-5xl font-medium mb-12 text-center z-11 text-[#17283D]">
     {testimonials.sectionTitle}
   </h2>
 
