@@ -104,7 +104,7 @@ export default function Support() {
         navLinks={navbar.links}
       />
       <div className="flex-grow">
-        <div className="mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-48">
           <h1 
             ref={useTextAnimation(supportHeader.heading)}
             className="text-h2-mobile md:text-h2 font-medium mb-16 text-[#17283D]"

@@ -197,7 +197,7 @@ export default function Navbar({ logo, phoneNumber, phoneIcon, navLinks }: Navba
 
   return (
     <nav ref={navRef} className="nav-container fixed top-0 left-0 right-0 z-50">
-      <div className="nav-content mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+      <div className="nav-content mx-auto px-4 sm:px-6 lg:px-12 py-10 flex justify-between items-center">
         {/* Logo */}
         <div className="logo-container">
           <TransitionLink to="/">
