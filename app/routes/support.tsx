@@ -107,7 +107,7 @@ export default function Support() {
         <div className="mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <h1 
             ref={useTextAnimation(supportHeader.heading)}
-            className="text-[31px] md:text-[76px] font-medium mb-16 text-[#17283D]"
+            className="text-h2-mobile md:text-h2 font-medium mb-16 text-[#17283D]"
           >
             {supportHeader.heading}
           </h1>

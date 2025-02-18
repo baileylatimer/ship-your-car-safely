@@ -91,24 +91,24 @@ export default function Faq({ items }: FaqProps) {
         // Close current item
         tl.to(contentRefs.current[activeIndex], {
           opacity: 0,
-          duration: 0.15,
+          duration: 0.2,
           ease: 'power2.in'
         })
         .to(contentRefs.current[activeIndex], {
           height: 0,
-          duration: 0.25,
+          duration: 0.3,
           ease: 'power3.inOut'
-        })
+        }, '<')
         .to(lineRefs.current[activeIndex], {
           bottom: 0,
-          duration: 0.25,
+          duration: 0.3,
           ease: 'power3.inOut',
           onComplete: () => {
             // After previous item is closed, open new item
             openItem(index)
             setActiveIndex(index)
           }
-        })
+        }, '<')
       } else {
         // No active item, just open the new one
         openItem(index)
@@ -134,20 +134,20 @@ export default function Faq({ items }: FaqProps) {
 
     // Create timeline with all animations
     tl.to(line, {
-      bottom: 0,
-      duration: 0.25,
+      bottom: -contentHeight,
+      duration: 0.3,
       ease: 'power3.inOut'
     })
     .to(content, {
       height: contentHeight,
-      duration: 0.25,
+      duration: 0.3,
       ease: 'power3.out'
-    }, '-=0.25')
+    }, '<')
     .to(content, {
       opacity: 1,
       duration: 0.2,
       ease: 'power2.out'
-    }, '-=0.1')
+    }, '>-=0.1')
   }
 
   const closeItem = async (index: number) => {
@@ -164,19 +164,19 @@ export default function Faq({ items }: FaqProps) {
     // Animate content and line
     tl.to(content, {
       opacity: 0,
-      duration: 0.15,
+      duration: 0.2,
       ease: 'power2.in'
     })
     .to(content, {
       height: 0,
-      duration: 0.25,
+      duration: 0.3,
       ease: 'power3.inOut'
-    }, '-=0.1')
+    }, '<')
     .to(line, {
       bottom: 0,
-      duration: 0.25,
+      duration: 0.3,
       ease: 'power3.inOut'
-    }, '-=0.25')
+    }, '<')
   }
 
   return (

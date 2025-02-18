@@ -71,7 +71,7 @@ export const TransitionProvider = ({ children }: { children: React.ReactNode }) 
         }, "-=0.2")
         .addLabel('end')
         // Hold the animation at the end
-        .to({}, { duration: 0.6 });
+        .to({}, { duration: 0.2 });
 
       // Play the animation and ensure it completes
       timeline.eventCallback('onComplete', () => {

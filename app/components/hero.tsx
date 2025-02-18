@@ -1,6 +1,5 @@
 import React from 'react';
 import { urlFor } from '~/lib/sanity.image';
-import Button from './button';
 
 interface HeroProps {
   title: string;
@@ -44,9 +43,6 @@ export default function Hero({ title, backgroundImage }: HeroProps) {
           <h1 className="text-h1-mobile md:text-h1 font-medium text-[#C8D6E6] max-w-3xl">
             {title}
           </h1>
-          <Button isQuoteButton variant="light" className="w-fit">
-            Get a Quote
-          </Button>
         </div>
       </div>
     </div>

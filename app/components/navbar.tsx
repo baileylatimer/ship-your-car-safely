@@ -78,7 +78,12 @@ function MobileMenu({ isOpen, onClose, phoneNumber, navLinks, logo, phoneIcon }:
           </div>
           <div className="flex flex-col items-center">
             {/* Get a Quote Button */}
-            <Button isQuoteButton variant="light" className="mobile-quote-btn">
+            <Button 
+              isQuoteButton 
+              variant="light" 
+              className="mobile-quote-btn"
+              onClick={onClose}
+            >
               Get a quote
               <svg 
                 className="arrow-icon" 

@@ -10,8 +10,8 @@ interface ImagesAboutProps {
 
 export default function ImagesAbout({ images }: ImagesAboutProps) {
   return (
-    <div className="relative mt-20 mb-20">
-      <div className="flex flex-col lg:block relative lg:h-[986px]">
+    <div className="relative mt-10 mb-10">
+      <div className="flex flex-col lg:block relative lg:h-[966px]">
         {images?.map((image, index) => (
           <div
             key={index}

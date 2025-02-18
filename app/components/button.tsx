@@ -23,7 +23,13 @@ export default function Button({ children, variant = 'dark', className = '', to,
 
   if (isQuoteButton) {
     return (
-      <button onClick={handleQuoteClick} className={combinedClassName}>
+      <button 
+        onClick={(e) => {
+          handleQuoteClick();
+          onClick?.();
+        }} 
+        className={combinedClassName}
+      >
         {children}
       </button>
     )

@@ -161,7 +161,7 @@ export default function TestimonialsSection({ testimonials = defaultTestimonials
     <SliderComponent ref={sliderRef} {...settings}>
       {testimonials.testimonialsList.map((testimonial, index) => (
         <div key={index} className="px-2">
-          <div className="bg-light-blue-bg border border-[#17283D] rounded-2xl p-8 h-full flex flex-col">
+          <div className="bg-light-blue-bg border border-[#17283D] rounded-2xl p-8 h-full sm:min-h-[450px] min-h-[375px] flex flex-col">
             {testimonial.image && (
               <img
                 src={urlFor(testimonial.image).url()}
@@ -182,7 +182,7 @@ export default function TestimonialsSection({ testimonials = defaultTestimonials
   ) : (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 m-auto"> 
       {testimonials.testimonialsList.map((testimonial, index) => (
-        <div key={index} className="bg-light-blue-bg border border-[#17283D] rounded-2xl p-8 h-full flex flex-col">
+        <div key={index} className="bg-light-blue-bg border border-[#17283D] rounded-2xl p-8 h-full min-h-[400px] flex flex-col">
           {testimonial.image && (
             <img
               src={urlFor(testimonial.image).url()}

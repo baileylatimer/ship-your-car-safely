@@ -62,7 +62,7 @@ export default function InfoAbout({ items }: InfoAboutProps) {
       {items.map((item, index) => (
         <div 
           key={index}
-          className="relative border-b border-[#17283D] py-8"
+          className="relative border-b border-[#17283D] py-4"
           onMouseEnter={() => setHoveredIndex(index)}
           onMouseLeave={() => setHoveredIndex(null)}
         >

@@ -43,7 +43,7 @@ export default function VideoSection({ title, videoUrl, coverImage }: VideoSecti
   };
 
   return (
-    <section className="py-24">
+    <section className="sm:py-10 py-5">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="w-full relative rounded-[30px] overflow-hidden">
         <button 

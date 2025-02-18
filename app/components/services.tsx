@@ -169,7 +169,7 @@ function ServiceCard({
 
       {/* Description (Middle Layer - Should be on Top when hovered) */}
       <div 
-        className="absolute inset-0 px-5 flex items-end justify-left pb-2 transition-opacity duration-300 opacity-0 group-hover:opacity-100 z-30"
+        className="absolute inset-0 px-5 flex items-end justify-left pb-5 transition-opacity duration-300 opacity-0 group-hover:opacity-100 z-30"
       >
         <p className="text-[#C8D6E6] text-lg">{service.description}</p>
       </div>

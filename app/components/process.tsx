@@ -49,7 +49,7 @@ export default function Process() {
   }
 
   return (
-    <section className="container mx-auto px-4 py-16">
+    <section className="container mx-auto px-4 py-5 pb-20 sm:py-10 ">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {process.processCards.map((card: ProcessCard, index: number) => (
           <div
