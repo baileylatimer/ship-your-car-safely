@@ -38,7 +38,7 @@ export default function Hero({ title, backgroundImage }: HeroProps) {
       </div>
       
       {/* Content */}
-      <div className="relative h-full flex items-center justify-start px-4 sm:px-3 lg:px-8 max-w-7xl mx-auto">
+      <div className="relative h-full flex items-end justify-start px-4 sm:px-3 lg:px-8 pb-24 max-w-7xl mx-auto">
         <div className="flex flex-col gap-8">
           <h1 className="text-h1-mobile md:text-h1 font-medium text-[#C8D6E6] max-w-3xl">
             {title}
