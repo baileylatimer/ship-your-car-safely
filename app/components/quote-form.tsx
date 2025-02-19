@@ -1,3 +1,5 @@
+import Button from './button';
+
 export default function QuoteForm() {
   return (
     <div className="bg-[#C8D6E6] rounded-xl p-6 w-full max-w-md">
@@ -51,27 +53,16 @@ export default function QuoteForm() {
 
         </div>
 
-        <button
-          type="button"
-          className="w-full bg-[#17283D] text-white p-3 rounded-md flex items-center justify-between mt-2"
-        >
-          <span>Vehicle Details</span>
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M4.16666 10H15.8333M15.8333 10L10.8333 5M15.8333 10L10.8333 15"
-              stroke="white"
-              strokeWidth="1.67"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
+        <Button 
+              variant="dark" 
+              className="group w-auto"
+              to="/about"
+            >
+              Vehicle Details
+              <svg className="ml-2 w-4 h-4 -rotate-45 transition-transform group-hover:rotate-0" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 8H15M15 8L8 1M15 8L8 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </Button>
       </form>
     </div>
   );
