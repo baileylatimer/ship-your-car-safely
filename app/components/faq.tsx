@@ -11,6 +11,7 @@ export default function Faq({ items }: FaqProps) {
   const lineRefs = useRef<(HTMLDivElement | null)[]>([])
   const contentRefs = useRef<(HTMLDivElement | null)[]>([])
   const titleRefs = useRef<(HTMLHeadingElement | null)[]>([])
+  const iconRefs = useRef<(SVGSVGElement | null)[]>([])
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -78,14 +79,32 @@ export default function Faq({ items }: FaqProps) {
     if (typeof window === "undefined") return;
     
     const gsap = (await import("gsap")).default;
+    const icon = iconRefs.current[index];
 
     if (activeIndex === index) {
       // Close current item
       closeItem(index)
       setActiveIndex(null)
+      // Rotate icon back
+      if (icon) {
+        gsap.to(icon, {
+          rotation: 0,
+          duration: 0.3,
+          ease: 'power3.inOut'
+        });
+      }
     } else {
       // If there's an active item, close it first
       if (activeIndex !== null) {
+        const prevIcon = iconRefs.current[activeIndex];
+        if (prevIcon) {
+          gsap.to(prevIcon, {
+            rotation: 0,
+            duration: 0.3,
+            ease: 'power3.inOut'
+          });
+        }
+
         const tl = gsap.timeline()
         
         // Close current item
@@ -107,12 +126,28 @@ export default function Faq({ items }: FaqProps) {
             // After previous item is closed, open new item
             openItem(index)
             setActiveIndex(index)
+            // Rotate new icon
+            if (icon) {
+              gsap.to(icon, {
+                rotation: 180,
+                duration: 0.3,
+                ease: 'power3.inOut'
+              });
+            }
           }
         }, '<')
       } else {
         // No active item, just open the new one
         openItem(index)
         setActiveIndex(index)
+        // Rotate icon
+        if (icon) {
+          gsap.to(icon, {
+            rotation: 180,
+            duration: 0.3,
+            ease: 'power3.inOut'
+          });
+        }
       }
     }
   }
@@ -182,41 +217,74 @@ export default function Faq({ items }: FaqProps) {
   return (
     <div className="w-full">
       {items.map((item, index) => (
-        <div 
-          key={index}
-          className="relative py-5 cursor-pointer"
-          onClick={() => handleClick(index)}
-        >
-          <div className="relative">
-            <div className="relative pb-8">
-              <h3 
-                ref={el => titleRefs.current[index] = el}
-                className="text-[39px] leading-tight text-black"
-              >
-                {item.title}
-              </h3>
-              
-              {/* Line element */}
-              <div 
-                ref={el => lineRefs.current[index] = el}
-                className="absolute left-0 right-0 bottom-0 border-b border-[#17283D]"
-              />
-            </div>
-
-            {/* Content container */}
-            <div
-              ref={el => contentRefs.current[index] = el}
-              className="overflow-hidden"
-            >
-              <div className="pt-5 pb-5 flex md:flex-row flex-col items-start">
-                <p className="text-[18px] leading-normal text-[#17283D] flex-1">{item.description}</p>
-                <div className="w-full md:w-[240px] md:ml-8 mt-4 md:mt-0">
-                  <img 
-                    src={urlFor(item.image).width(240).height(240).fit('crop').url()}
-                    alt={item.title}
-                    className="w-[240px] h-[240px] object-cover rounded-[30px]"
-                  />
+        <div key={index} className="relative py-5">
+          <button
+            className="w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#17283D] focus-visible:ring-opacity-50 rounded-lg"
+            onClick={() => handleClick(index)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleClick(index);
+              }
+            }}
+            aria-expanded={activeIndex === index}
+            aria-controls={`faq-content-${index}`}
+          >
+            <div className="relative">
+              <div className="relative pb-8">
+                <div className="flex justify-between items-center">
+                  <h3 
+                    ref={el => titleRefs.current[index] = el}
+                    id={`faq-title-${index}`}
+                    className="text-[39px] leading-tight text-black pr-8"
+                  >
+                    {item.title}
+                  </h3>
+                  <svg
+                    ref={el => iconRefs.current[index] = el}
+                    className="w-8 h-8 flex-shrink-0"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M6 9L12 15L18 9"
+                      stroke="#17283D"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 </div>
+                
+                {/* Line element */}
+                <div 
+                  ref={el => lineRefs.current[index] = el}
+                  className="absolute left-0 right-0 bottom-0 border-b border-[#17283D]"
+                  aria-hidden="true"
+                />
+              </div>
+            </div>
+          </button>
+
+          {/* Content container */}
+          <div
+            ref={el => contentRefs.current[index] = el}
+            id={`faq-content-${index}`}
+            role="region"
+            aria-labelledby={`faq-title-${index}`}
+            className="overflow-hidden"
+          >
+            <div className="pt-5 pb-5 flex md:flex-row flex-col items-start">
+              <p className="text-[18px] leading-normal text-[#17283D] flex-1">{item.description}</p>
+              <div className="w-full md:w-[240px] md:ml-8 mt-4 md:mt-0">
+                <img 
+                  src={urlFor(item.image).width(240).height(240).fit('crop').url()}
+                  alt=""
+                  role="presentation"
+                  className="w-[240px] h-[240px] object-cover rounded-[30px]"
+                />
               </div>
             </div>
           </div>
