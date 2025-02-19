@@ -149,7 +149,7 @@ export default function QuoteForm() {
 
             <Button 
             variant="dark" 
-            className="group w-full"
+            className="group w-full mt-8"
             onClick={() => setCurrentStep(2)}
           >
             Vehicle Details
@@ -285,7 +285,9 @@ export default function QuoteForm() {
                 className="group flex-1"
                 onClick={() => setCurrentStep(1)}
               >
-                <svg className="mr-2 w-4 h-4 rotate-135 transition-transform group-hover:rotate-180" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg className="mr-2 w-4 h-4 transition-transform group-hover:rotate-180" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                style={{ transform: 'rotate(215deg)' }}
+                >
                   <path d="M1 8H15M15 8L8 1M15 8L8 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
                 Back
