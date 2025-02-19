@@ -13,7 +13,7 @@ interface FooterProps {
 export default function Footer({ footer, phoneNumber, phoneIcon }: FooterProps) {
   console.log('Footer Props:', { footer, phoneNumber, phoneIcon }); // Debug log
   return (
-    <footer className="relative bg-primary-blue text-light-blue-bg py-16 rounded-t-[30px]">
+    <footer className="relative bg-primary-blue text-light-blue-bg pt-16 pb-8 rounded-t-[30px]">
       {/* Wing element */}
       <div className="absolute right-0 top-12 w-full hidden md:block">
         <div className="relative flex flex-col items-end">
@@ -25,7 +25,7 @@ export default function Footer({ footer, phoneNumber, phoneIcon }: FooterProps) 
 
       <div className="w-full ml-auto px-10 relative z-10 flex flex-col md:gap-14 sm:gap-3">
         {/* Main content */}
-        <div className="text-center mb-12 md:mr-auto md:ml-0 sm:mx-auto">
+        <div className="text-center mb-36 md:mr-auto md:ml-0 sm:mx-auto">
           <h1 className="text-5xl font-medium mb-6">{footer.heading}</h1>
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
             <Button isQuoteButton variant="light" className="text-lg group">

@@ -1,5 +1,5 @@
-import React from 'react';
 import { urlFor } from '~/lib/sanity.image';
+import QuoteForm from './quote-form';
 
 interface HeroProps {
   title: string;
@@ -38,11 +38,14 @@ export default function Hero({ title, backgroundImage }: HeroProps) {
       </div>
       
       {/* Content */}
-      <div className="relative h-full flex items-end justify-start px-4 sm:px-3 lg:px-8 pb-24 max-w-7xl mx-auto">
-        <div className="flex flex-col gap-8">
-          <h1 className="text-h1-mobile md:text-h1 font-medium text-[#C8D6E6] max-w-3xl">
+      <div className="relative h-full flex flex-col lg:flex-row items-end justify-between px-4 sm:px-3 lg:px-8 pb-8 lg:pb-24 pt-20 lg:pt-0  mx-auto">
+        <div className="flex flex-col gap-8 lg:max-w-[50%]">
+          <h1 className="text-h1-mobile md:text-h1 font-medium text-[#C8D6E6]">
             {title}
           </h1>
+        </div>
+        <div className="w-full lg:w-auto mt-8 lg:mt-0">
+          <QuoteForm />
         </div>
       </div>
     </div>

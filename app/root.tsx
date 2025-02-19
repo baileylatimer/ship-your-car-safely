@@ -11,16 +11,16 @@ import {
   Location
 } from "@remix-run/react";
 import { TransitionProvider } from "./context/TransitionContext";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useTransitionNavigation } from "./hooks/useTransitionNavigation";
 import PageTransition from "./components/page-transition";
 import Navbar from "./components/navbar";
-import { urlFor } from "~/lib/sanity.image";
 import "~/styles/tailwind.css";
 import "~/styles/slick-overrides.css";
 import "~/styles/index.css";
 import "~/styles/navbar.css";
 import "~/styles/transitions.css";
+import "~/styles/datepicker.css";
 
 export const links: LinksFunction = () => [
   {
@@ -85,13 +85,12 @@ import type { NavLink, SanityImage } from '~/types/sanity';
 export default function App() {
   const { navbar } = useLoaderData<typeof loader>() as LoaderData;
   const location = useLocation();
-  const urlForRef = useRef(urlFor);
 
   // Initialize transition navigation
   useTransitionNavigation();
 
   useEffect(() => {
-    const state = (location as Location & { state: any }).state;
+    const state = (location as Location & { state: { scrollToHero?: boolean } }).state;
     if (state?.scrollToHero) {
       const timer = setTimeout(() => {
         const heroElement = document.querySelector('#hero');
