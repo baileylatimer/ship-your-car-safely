@@ -85,12 +85,7 @@ export default function Index() {
           description={services.description}
           services={services.services}
         />
-        {fullWidthImage && (
-          <FullWidthImage
-            image={fullWidthImage.image}
-            alt={fullWidthImage.alt}
-          />
-        )}
+
         {testimonials && <TestimonialsSection testimonials={testimonials} />}
       </main>
       <Footer 
