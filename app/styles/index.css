@@ -44,3 +44,8 @@ h1 {
 button {
   white-space: nowrap;
 }
+
+::selection {
+  background:#17283D;
+  color: #C8D6E6;
+}
