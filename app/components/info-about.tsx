@@ -66,7 +66,7 @@ export default function InfoAbout({ items }: InfoAboutProps) {
           <div className="flex flex-col md:flex-row items-start justify-between overflow-hidden">
             <h3 
               ref={el => titleRefs.current[index] = el}
-              className="text-[39px] leading-tight text-black mb-4 md:mb-0"
+              className="text-[39px] leading-tight text-[#17283D] mb-4 md:mb-0"
             >
               {item.title}
             </h3>
