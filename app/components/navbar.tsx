@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
-import type { NavLink } from '~/types/sanity'
 import type { SanityImage } from '~/types/sanity'
-import { Link, useLocation } from '@remix-run/react'
+import { useLocation } from '@remix-run/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
 import { urlFor } from '~/lib/sanity.image'
@@ -13,14 +12,15 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
 }
 
-function MobileMenu({ isOpen, onClose, phoneNumber, navLinks, logo, phoneIcon }: {
+function MobileMenu({ isOpen, onClose, phoneNumber, logo, phoneIcon }: {
   isOpen: boolean
   onClose: () => void
   phoneNumber: string
-  navLinks: NavLink[]
   logo: SanityImage
   phoneIcon: SanityImage
 }) {
+  const location = useLocation()
+  
   return (
     <>
       {/* Menu */}
@@ -63,14 +63,14 @@ function MobileMenu({ isOpen, onClose, phoneNumber, navLinks, logo, phoneIcon }:
           <div className="mobile-menu-links">
             <TransitionLink
               to="/about"
-              className="mobile-nav-link"
+              className={`mobile-nav-link ${location.pathname === '/about' ? 'active' : ''}`}
               onClick={onClose}
             >
               About
             </TransitionLink>
             <TransitionLink
               to="/support"
-              className="mobile-nav-link"
+              className={`mobile-nav-link ${location.pathname === '/support' ? 'active' : ''}`}
               onClick={onClose}
             >
               Support
@@ -128,10 +128,9 @@ interface NavbarProps {
   logo: SanityImage
   phoneNumber: string
   phoneIcon: SanityImage
-  navLinks: NavLink[]
 }
 
-export default function Navbar({ logo, phoneNumber, phoneIcon, navLinks }: NavbarProps) {
+export default function Navbar({ logo, phoneNumber, phoneIcon }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false)
   const navRef = useRef<HTMLElement>(null)
   const location = useLocation()
@@ -212,8 +211,18 @@ export default function Navbar({ logo, phoneNumber, phoneIcon, navLinks }: Navba
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-8 mx-6">
           <div className="flex gap-6">
-            <TransitionLink to="/about" className={`text-base-p font-medium ${isHomePage ? 'nav-text' : ''}`}>About</TransitionLink>
-            <TransitionLink to="/support" className={`text-base-p font-medium ${isHomePage ? 'nav-text' : ''}`}>Support</TransitionLink>
+            <TransitionLink 
+              to="/about" 
+              className={`nav-link text-base-p font-medium ${isHomePage ? 'nav-text' : ''} ${location.pathname === '/about' ? 'active' : ''}`}
+            >
+              About
+            </TransitionLink>
+            <TransitionLink 
+              to="/support" 
+              className={`nav-link text-base-p font-medium ${isHomePage ? 'nav-text' : ''} ${location.pathname === '/support' ? 'active' : ''}`}
+            >
+              Support
+            </TransitionLink>
           </div>
         </div>
 
@@ -244,7 +253,6 @@ export default function Navbar({ logo, phoneNumber, phoneIcon, navLinks }: Navba
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         phoneNumber={phoneNumber}
-        navLinks={navLinks}
         logo={logo}
         phoneIcon={phoneIcon}
       />

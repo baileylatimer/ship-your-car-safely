@@ -88,6 +88,18 @@
     white-space: nowrap;
 }
 
+.nav-link.active {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    pointer-events: none;
+}
+
+.mobile-nav-link.active {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    pointer-events: none;
+}
+
 .desktop-phone {
     display: flex;
     align-items: center;
