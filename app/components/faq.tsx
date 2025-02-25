@@ -236,7 +236,7 @@ export default function Faq({ items }: FaqProps) {
                   <h3 
                     ref={el => titleRefs.current[index] = el}
                     id={`faq-title-${index}`}
-                    className="text-[39px] leading-tight text-black pr-8"
+                    className="text-[24px] lg:text-[39px] leading-tight text-black pr-8"
                   >
                     {item.title}
                   </h3>

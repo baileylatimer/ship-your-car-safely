@@ -2,6 +2,7 @@ import { useTextAnimation } from "~/hooks/useTextAnimation";
 import Button from './button';
 import CountUp from 'react-countup';
 import { useInView } from 'react-intersection-observer';
+import { useEffect, useState } from 'react';
 
 interface Stat {
   value: string;
@@ -15,10 +16,15 @@ interface StatisticsSectionProps {
 }
 
 export default function StatisticsSection({ heading, description, stats }: StatisticsSectionProps) {
+  const [isMounted, setIsMounted] = useState(false);
   const { ref: statsRef, inView } = useInView({
     triggerOnce: true,
     threshold: 0.1
   });
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <section className="sm:py-10 py-5">
@@ -65,7 +71,7 @@ export default function StatisticsSection({ heading, description, stats }: Stati
               >
                 <div className="flex items-center font-medium text-[#17283D] mb-2 whitespace-nowrap">
                   <span className="text-stat-mobile lg:text-stat leading-none">
-                    {inView ? (
+                    {(inView && isMounted) ? (
                       <CountUp
                         start={0}
                         end={Number(stat.value.replace(/[^0-9]/g, ''))}

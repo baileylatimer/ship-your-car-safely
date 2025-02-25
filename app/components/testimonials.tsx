@@ -131,9 +131,9 @@ export default function TestimonialsSection({ testimonials = defaultTestimonials
   return (
     <section className="py-16 relative overflow-visible">
       {/* Left gradient overlay */}
-      <div className="absolute left-0 top-0 bottom-0 w-[150px] bg-gradient-to-r from-[#C8D6E6] to-transparent z-10"></div>
+      <div className="hidden lg:block absolute left-0 top-0 bottom-0 w-[150px] bg-gradient-to-r from-[#C8D6E6] to-transparent z-10"></div>
       {/* Right gradient overlay */}
-      <div className="absolute right-0 top-0 bottom-0 w-[150px] bg-gradient-to-l from-[#C8D6E6] to-transparent z-10"></div>
+      <div className="hidden lg:block absolute right-0 top-0 bottom-0 w-[150px] bg-gradient-to-l from-[#C8D6E6] to-transparent z-10"></div>
       <button 
         onClick={goToPrev}
         className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 bg-[#17283D] rounded-full flex items-center justify-center text-[#C8D6E6]"
