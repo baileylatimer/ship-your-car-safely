@@ -1,11 +1,10 @@
-import { useLocation } from '@remix-run/react';
-import { useTransitionNavigation } from './useTransitionNavigation';
+import { useLocation, useNavigate } from '@remix-run/react';
 
 export function useQuoteNavigation() {
   const location = useLocation();
-  const handleTransitionNavigation = useTransitionNavigation();
+  const navigate = useNavigate();
 
-  const handleQuoteClick = async () => {
+  const handleQuoteClick = () => {
     if (location.pathname === '/') {
       // If we're on home page, smooth scroll to hero
       // Add a delay to ensure component is mounted and transitions are complete
@@ -27,8 +26,8 @@ export function useQuoteNavigation() {
         }
       }, 300);
     } else {
-      // If we're on another page, use transition navigation to home
-      await handleTransitionNavigation('/');
+      // If we're on another page, navigate to home
+      navigate('/', { state: { scrollToHero: true } });
     }
   };
 

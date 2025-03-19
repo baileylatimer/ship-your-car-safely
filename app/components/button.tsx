@@ -1,6 +1,5 @@
-import { Link } from '@remix-run/react'
+import { useNavigate } from '@remix-run/react'
 import { useQuoteNavigation } from '~/hooks/useQuoteNavigation'
-import { useTransitionNavigation } from '~/hooks/useTransitionNavigation'
 
 interface ButtonProps {
   children: React.ReactNode
@@ -14,6 +13,7 @@ interface ButtonProps {
 
 export default function Button({ children, variant = 'dark', className = '', to, onClick, isQuoteButton, disabled }: ButtonProps) {
   const handleQuoteClick = useQuoteNavigation();
+  const navigate = useNavigate();
   const baseStyles = 'inline-flex items-center justify-center px-6 py-3 rounded-full font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
   const variantStyles = {
     light: 'btn-light',
@@ -25,7 +25,7 @@ export default function Button({ children, variant = 'dark', className = '', to,
   if (isQuoteButton) {
     return (
       <button 
-        onClick={(e) => {
+        onClick={() => {
           handleQuoteClick();
           onClick?.();
         }} 
@@ -37,12 +37,10 @@ export default function Button({ children, variant = 'dark', className = '', to,
     )
   }
 
-  const handleTransitionNavigation = useTransitionNavigation();
-
   if (to) {
     return (
       <button 
-        onClick={(e) => handleTransitionNavigation(to, e)} 
+        onClick={() => navigate(to)} 
         className={combinedClassName}
         disabled={disabled}
       >
