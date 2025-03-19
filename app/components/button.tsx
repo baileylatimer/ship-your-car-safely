@@ -9,11 +9,12 @@ interface ButtonProps {
   to?: string
   onClick?: () => void
   isQuoteButton?: boolean
+  disabled?: boolean
 }
 
-export default function Button({ children, variant = 'dark', className = '', to, onClick, isQuoteButton }: ButtonProps) {
+export default function Button({ children, variant = 'dark', className = '', to, onClick, isQuoteButton, disabled }: ButtonProps) {
   const handleQuoteClick = useQuoteNavigation();
-  const baseStyles = 'inline-flex items-center justify-center px-6 py-3 rounded-full font-medium transition-colors'
+  const baseStyles = 'inline-flex items-center justify-center px-6 py-3 rounded-full font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
   const variantStyles = {
     light: 'btn-light',
     dark: 'btn-dark'
@@ -29,6 +30,7 @@ export default function Button({ children, variant = 'dark', className = '', to,
           onClick?.();
         }} 
         className={combinedClassName}
+        disabled={disabled}
       >
         {children}
       </button>
@@ -42,6 +44,7 @@ export default function Button({ children, variant = 'dark', className = '', to,
       <button 
         onClick={(e) => handleTransitionNavigation(to, e)} 
         className={combinedClassName}
+        disabled={disabled}
       >
         {children}
       </button>
@@ -49,7 +52,7 @@ export default function Button({ children, variant = 'dark', className = '', to,
   }
 
   return (
-    <button onClick={onClick} className={combinedClassName}>
+    <button onClick={onClick} className={combinedClassName} disabled={disabled}>
       {children}
     </button>
   )

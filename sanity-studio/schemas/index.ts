@@ -14,6 +14,7 @@ import footer from './footer'
 import infoAbout from './info-about'
 import imagesAbout from './images-about'
 import aboutVideo from './about-video'
+import lead from './lead'
 
 export const schemaTypes = [
   project,
@@ -30,5 +31,6 @@ export const schemaTypes = [
   infoAbout,
   imagesAbout,
   supportHeader,
-  faq
+  faq,
+  lead
 ]

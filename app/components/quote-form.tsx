@@ -65,6 +65,12 @@ interface FormData {
   phone: string;
 }
 
+interface SubmissionStatus {
+  loading: boolean;
+  error?: string;
+  success?: boolean;
+}
+
 interface FormErrors {
   from?: string;
   to?: string;
@@ -92,6 +98,11 @@ export default function QuoteForm() {
     phone: ''
   });
   const [errors, setErrors] = useState<FormErrors>({});
+  const [status, setStatus] = useState<SubmissionStatus>({
+    loading: false,
+    error: undefined,
+    success: false
+  });
 
   const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData(prev => {
@@ -145,10 +156,49 @@ export default function QuoteForm() {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validateStep(3)) {
-      // Handle form submission
-      console.log('Form submitted:', formData);
+      setStatus({ loading: true });
+      try {
+        const response = await fetch('/api/quote', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to submit quote');
+        }
+
+        setStatus({
+          loading: false,
+          success: true
+        });
+
+        // Reset form after successful submission
+        setFormData({
+          from: '',
+          to: '',
+          date: '',
+          year: '',
+          make: '',
+          model: '',
+          operable: '',
+          name: '',
+          email: '',
+          phone: ''
+        });
+        setCurrentStep(1);
+      } catch (error) {
+        setStatus({
+          loading: false,
+          error: error instanceof Error ? error.message : 'Failed to submit quote'
+        });
+      }
     }
   };
 
@@ -500,8 +550,9 @@ export default function QuoteForm() {
             variant="dark" 
             className="group flex-1"
             onClick={handleSubmit}
+            disabled={status.loading}
           >
-            Get my quote
+            {status.loading ? 'Submitting...' : 'Get my quote'}
             <svg className="ml-2 w-4 h-4 -rotate-45 transition-transform group-hover:rotate-0" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1 8H15M15 8L8 1M15 8L8 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
@@ -519,7 +570,28 @@ export default function QuoteForm() {
       </h2>
       
       <form className="flex flex-col" onSubmit={(e) => e.preventDefault()}>
-        {renderStep()}
+        {status.success ? (
+          <div className="text-center py-8">
+            <h3 className="text-[#17283D] text-xl mb-4">Thank you!</h3>
+            <p className="text-[#17283D] mb-6">Your quote request has been submitted. We&apos;ll be in touch shortly.</p>
+            <Button 
+              variant="dark" 
+              className="group"
+              onClick={() => setStatus({ loading: false })}
+            >
+              Submit another quote
+            </Button>
+          </div>
+        ) : (
+          <>
+            {status.error && (
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
+                <span className="block sm:inline">{status.error}</span>
+              </div>
+            )}
+            {renderStep()}
+          </>
+        )}
       </form>
     </div>
   );
