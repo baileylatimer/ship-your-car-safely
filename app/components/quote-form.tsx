@@ -521,39 +521,20 @@ export default function QuoteForm() {
       
       // Format as mm/dd/yyyy
       let formattedDate = '';
-      if (digitsOnly.length > 0) {
-        // Add first digit of month
-        formattedDate = digitsOnly.substring(0, 1);
-        
-        // Add second digit of month + slash
-        if (digitsOnly.length > 1) {
-          formattedDate = digitsOnly.substring(0, 2);
-          // Add slash after month
-          if (digitsOnly.length > 2) {
-            formattedDate += '/' + digitsOnly.substring(2, 3);
-          } else {
-            formattedDate += '/';
-          }
-          
-          // Add second digit of day + slash
-          if (digitsOnly.length > 3) {
-            formattedDate = formattedDate.substring(0, 3) + digitsOnly.substring(3, 4);
-            if (digitsOnly.length > 4) {
-              formattedDate = formattedDate.substring(0, 4) + digitsOnly.substring(4, 5);
-              // Add slash after day
-              if (digitsOnly.length > 5) {
-                formattedDate += '/' + digitsOnly.substring(5, 6);
-              } else {
-                formattedDate += '/';
-              }
-              
-              // Add remaining digits of year
-              if (digitsOnly.length > 6) {
-                formattedDate += digitsOnly.substring(6, Math.min(8, digitsOnly.length));
-              }
-            }
-          }
-        }
+      
+      // Handle month (first 2 digits)
+      if (digitsOnly.length >= 1) {
+        formattedDate += digitsOnly.substring(0, Math.min(2, digitsOnly.length));
+      }
+      
+      // Handle day (next 2 digits)
+      if (digitsOnly.length > 2) {
+        formattedDate += '/' + digitsOnly.substring(2, Math.min(4, digitsOnly.length));
+      }
+      
+      // Handle year (remaining digits)
+      if (digitsOnly.length > 4) {
+        formattedDate += '/' + digitsOnly.substring(4, Math.min(8, digitsOnly.length));
       }
       
       // Limit to 10 characters (mm/dd/yyyy)
