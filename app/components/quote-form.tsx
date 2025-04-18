@@ -578,7 +578,7 @@ export default function QuoteForm() {
       setIsSubmitting(false);
       
       if (fetcher.data?.success) {
-        alert('Thank you! Your quote request has been submitted successfully. A copy has been sent to your email address and we will contact you shortly. (Note: If you don\'t receive an email confirmation, please check your spam folder)');
+        alert('Thank you! Your quote request has been submitted successfully. We will contact you shortly.');
         
         // Reset form
         setFormData({
