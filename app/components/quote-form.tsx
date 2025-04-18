@@ -660,45 +660,20 @@ export default function QuoteForm() {
           </div>
 
           <div className="relative">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="mm / dd / yyyy"
-                value={formData.date}
-                onChange={(e) => handleInputChange('date', e.target.value)}
-                className={`w-full p-3 pl-10 border border-[#17283D] rounded-md bg-transparent text-[#17283D] ${
-                  errors.date ? 'border-red-500' : ''
-                }`}
-                style={{ borderRadius: '0 0 18px 18px', borderTop: '0'}}
-                readOnly
-                onClick={() => {
-                  // Find the hidden date input and trigger a click on it
-                  const dateInput = document.getElementById('hidden-date-input');
-                  if (dateInput) {
-                    dateInput.click();
-                  }
-                }}
-              />
-              <input
-                id="hidden-date-input"
-                type="date"
-                className="opacity-0 absolute top-0 left-0 w-0 h-0"
-                onChange={(e) => {
-                  if (e.target.value) {
-                    // Format the date as mm/dd/yyyy
-                    const date = new Date(e.target.value);
-                    const month = String(date.getMonth() + 1).padStart(2, '0');
-                    const day = String(date.getDate()).padStart(2, '0');
-                    const year = date.getFullYear();
-                    const formattedDate = `${month}/${day}/${year}`;
-                    handleInputChange('date', formattedDate);
-                  }
-                }}
-              />
-              <svg className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19 4H18V3C18 2.73478 17.8946 2.48043 17.7071 2.29289C17.5196 2.10536 17.2652 2 17 2C16.7348 2 16.4804 2.10536 16.2929 2.29289C16.1054 2.48043 16 2.73478 16 3V4H8V3C8 2.73478 7.89464 2.48043 7.70711 2.29289C7.51957 2.10536 7.26522 2 7 2C6.73478 2 6.48043 2.10536 6.29289 2.29289C6.10536 2.48043 6 2.73478 6 3V4H5C4.20435 4 3.44129 4.31607 2.87868 4.87868C2.31607 5.44129 2 6.20435 2 7V19C2 19.7956 2.31607 20.5587 2.87868 21.1213C3.44129 21.6839 4.20435 22 5 22H19C19.7956 22 20.5587 21.6839 21.1213 21.1213C21.6839 20.5587 22 19.7956 22 19V7C22 6.20435 21.6839 5.44129 21.1213 4.87868C20.5587 4.31607 19.7956 4 19 4Z" fill="#17283D"/>
-              </svg>
-            </div>
+            <input
+              type="text"
+              placeholder="mm / dd / yyyy"
+              value={formData.date}
+              onChange={(e) => handleInputChange('date', e.target.value)}
+              className={`w-full p-3 pl-10 border border-[#17283D] rounded-md bg-transparent text-[#17283D] ${
+                errors.date ? 'border-red-500' : ''
+              }`}
+              style={{ borderRadius: '0 0 18px 18px', borderTop: '0'}}
+              inputMode="numeric"
+            />
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19 4H18V3C18 2.73478 17.8946 2.48043 17.7071 2.29289C17.5196 2.10536 17.2652 2 17 2C16.7348 2 16.4804 2.10536 16.2929 2.29289C16.1054 2.48043 16 2.73478 16 3V4H8V3C8 2.73478 7.89464 2.48043 7.70711 2.29289C7.51957 2.10536 7.26522 2 7 2C6.73478 2 6.48043 2.10536 6.29289 2.29289C6.10536 2.48043 6 2.73478 6 3V4H5C4.20435 4 3.44129 4.31607 2.87868 4.87868C2.31607 5.44129 2 6.20435 2 7V19C2 19.7956 2.31607 20.5587 2.87868 21.1213C3.44129 21.6839 4.20435 22 5 22H19C19.7956 22 20.5587 21.6839 21.1213 21.1213C21.6839 20.5587 22 19.7956 22 19V7C22 6.20435 21.6839 5.44129 21.1213 4.87868C20.5587 4.31607 19.7956 4 19 4Z" fill="#17283D"/>
+            </svg>
             {renderErrorMessage('date')}
           </div>
 
