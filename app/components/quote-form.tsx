@@ -514,6 +514,56 @@ export default function QuoteForm() {
   const [errors, setErrors] = useState<FormErrors>({});
 
   const handleInputChange = (field: keyof FormData, value: string) => {
+    // Special handling for date field to format as mm/dd/yyyy
+    if (field === 'date') {
+      // Remove any non-digit characters
+      const digitsOnly = value.replace(/\D/g, '');
+      
+      // Format as mm/dd/yyyy
+      let formattedDate = '';
+      if (digitsOnly.length > 0) {
+        // Add first digit of month
+        formattedDate = digitsOnly.substring(0, 1);
+        
+        // Add second digit of month + slash
+        if (digitsOnly.length > 1) {
+          formattedDate = digitsOnly.substring(0, 2);
+          // Add slash after month
+          if (digitsOnly.length > 2) {
+            formattedDate += '/' + digitsOnly.substring(2, 3);
+          } else {
+            formattedDate += '/';
+          }
+          
+          // Add second digit of day + slash
+          if (digitsOnly.length > 3) {
+            formattedDate = formattedDate.substring(0, 3) + digitsOnly.substring(3, 4);
+            if (digitsOnly.length > 4) {
+              formattedDate = formattedDate.substring(0, 4) + digitsOnly.substring(4, 5);
+              // Add slash after day
+              if (digitsOnly.length > 5) {
+                formattedDate += '/' + digitsOnly.substring(5, 6);
+              } else {
+                formattedDate += '/';
+              }
+              
+              // Add remaining digits of year
+              if (digitsOnly.length > 6) {
+                formattedDate += digitsOnly.substring(6, Math.min(8, digitsOnly.length));
+              }
+            }
+          }
+        }
+      }
+      
+      // Limit to 10 characters (mm/dd/yyyy)
+      if (formattedDate.length <= 10) {
+        value = formattedDate;
+      } else {
+        return; // Don't update if exceeding max length
+      }
+    }
+    
     setFormData(prev => {
       const newData = { ...prev, [field]: value };
       // Reset model when make changes
@@ -522,6 +572,7 @@ export default function QuoteForm() {
       }
       return newData;
     });
+    
     // Clear error when field is changed
     if (errors[field as keyof FormErrors]) {
       setErrors(prev => ({ ...prev, [field]: undefined }));
