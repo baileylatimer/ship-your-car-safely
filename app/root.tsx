@@ -60,7 +60,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     }
 
     return json({ 
-      navbar: data.navbar
+      navbar: data.navbar 
     });
   } catch (error) {
     console.error('Error fetching data:', error);
