@@ -826,10 +826,10 @@ export default function QuoteForm() {
             {renderErrorMessage('operable')}
           </div>
 
-          <div className="flex gap-4 mt-6">
+          <div className="flex flex-col-reverse md:flex-row ">
             <Button 
-              variant="dark" 
-              className="group flex-1"
+              variant="light" 
+              className="group flex-1 width-full"
               onClick={() => setCurrentStep(1)}
             >
               <svg className="mr-2 w-4 h-4 transition-transform group-hover:rotate-180" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -841,7 +841,7 @@ export default function QuoteForm() {
             </Button>
             <Button 
               variant="dark" 
-              className="group flex-1"
+              className="group flex-1  width-full mt-6 md:mt-0"
               onClick={handleNext}
             >
               Next
@@ -943,9 +943,9 @@ export default function QuoteForm() {
           </svg>
         </div>
 
-        <div className="flex gap-4 mt-6">
+        <div className="flex flex-col-reverse md:flex-row gap-4 mt-6">
           <Button 
-            variant="dark" 
+            variant="light" 
             className="group flex-1"
             onClick={() => setCurrentStep(2)}
           >
@@ -958,7 +958,7 @@ export default function QuoteForm() {
           </Button>
           <Button 
             variant="dark" 
-            className="group flex-1"
+            className="group flex-1 width-full mt-6 md:mt-0"
             onClick={handleSubmit}
           >
             Get my quote

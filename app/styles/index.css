@@ -25,6 +25,11 @@
     width: fit-content;
 }
 
+@media only screen and (max-width: 600px) {
+.width-full {
+  width:100% !important
+}
+}
 
 .border-radius-30 {
     border-radius: 30px;
