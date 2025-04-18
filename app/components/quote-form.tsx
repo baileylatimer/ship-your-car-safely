@@ -1,15 +1,57 @@
 import Button from './button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useFetcher } from '@remix-run/react';
+import type { QuoteResponse } from '~/routes/api.quote';
 
+// Generate array of the last 30 years
 const currentYear = 2025;
 const years = Array.from({ length: 30 }, (_, i) => currentYear - i);
 
 const carMakes = [
-  "Acura", "Audi", "BMW", "Buick", "Cadillac", "Chevrolet", "Chrysler", 
-  "Dodge", "Ford", "GMC", "Honda", "Hyundai", "Infiniti", "Jaguar", "Jeep", 
-  "Kia", "Land Rover", "Lexus", "Lincoln", "Mazda", "Mercedes-Benz", "MINI", 
-  "Mitsubishi", "Nissan", "Porsche", "Ram", "Subaru", "Tesla", "Toyota", 
-  "Volkswagen", "Volvo"
+  "Acura",
+  "Alfa Romeo",
+  "Aston Martin",
+  "Audi",
+  "BMW",
+  "Bentley",
+  "Buick",
+  "Cadillac",
+  "Chevrolet",
+  "Chrysler",
+  "Dodge",
+  "Ferrari",
+  "Fiat",
+  "Ford",
+  "Genesis",
+  "GMC",
+  "Honda",
+  "Hyundai",
+  "Infiniti",
+  "Jaguar",
+  "Jeep",
+  "Kia",
+  "Lamborghini",
+  "Land Rover",
+  "Lexus",
+  "Lincoln",
+  "Lucid",
+  "Maserati",
+  "Mazda",
+  "McLaren",
+  "Mercedes-Benz",
+  "MINI",
+  "Mitsubishi",
+  "Nissan",
+  "Polestar",
+  "Porsche",
+  "Ram",
+  "Rivian",
+  "Rolls-Royce",
+  "Subaru",
+  "Tesla",
+  "Toyota",
+  "Volkswagen",
+  "Volvo"
 ] as const;
 
 type CarMake = typeof carMakes[number];
@@ -19,37 +61,415 @@ type CarData = {
 };
 
 const carData: CarData = {
-  "Acura": ["ILX", "MDX", "RDX", "TLX", "NSX"],
-  "Audi": ["A3", "A4", "A6", "Q3", "Q5", "Q7", "e-tron"],
-  "BMW": ["2 Series", "3 Series", "5 Series", "X1", "X3", "X5", "i4", "iX"],
-  "Buick": ["Enclave", "Encore", "Envision"],
-  "Cadillac": ["CT4", "CT5", "Escalade", "XT4", "XT5", "XT6", "LYRIQ"],
-  "Chevrolet": ["Blazer", "Camaro", "Corvette", "Equinox", "Malibu", "Silverado", "Tahoe", "Bolt EV"],
-  "Chrysler": ["300", "Pacifica"],
-  "Dodge": ["Challenger", "Charger", "Durango"],
-  "Ford": ["Bronco", "Edge", "Escape", "Explorer", "F-150", "Mustang", "Ranger", "Mach-E"],
-  "GMC": ["Acadia", "Canyon", "Sierra", "Terrain", "Yukon"],
-  "Honda": ["Accord", "Civic", "CR-V", "HR-V", "Odyssey", "Pilot", "Ridgeline"],
-  "Hyundai": ["Elantra", "Kona", "Palisade", "Santa Fe", "Sonata", "Tucson", "IONIQ 5"],
-  "Infiniti": ["Q50", "Q60", "QX50", "QX60", "QX80"],
-  "Jaguar": ["E-PACE", "F-PACE", "F-TYPE", "I-PACE", "XF"],
-  "Jeep": ["Cherokee", "Compass", "Gladiator", "Grand Cherokee", "Wrangler"],
-  "Kia": ["Forte", "K5", "Seltos", "Sorento", "Sportage", "Telluride", "EV6"],
-  "Land Rover": ["Defender", "Discovery", "Range Rover", "Range Rover Sport", "Range Rover Velar"],
-  "Lexus": ["ES", "IS", "NX", "RX", "UX"],
-  "Lincoln": ["Aviator", "Corsair", "Nautilus", "Navigator"],
-  "Mazda": ["CX-30", "CX-5", "CX-9", "Mazda3", "Mazda6", "MX-5 Miata"],
-  "Mercedes-Benz": ["A-Class", "C-Class", "E-Class", "GLA", "GLC", "GLE", "S-Class", "EQS"],
-  "MINI": ["Clubman", "Countryman", "Hardtop"],
-  "Mitsubishi": ["Eclipse Cross", "Outlander", "Outlander Sport"],
-  "Nissan": ["Altima", "Frontier", "Kicks", "Leaf", "Maxima", "Murano", "Pathfinder", "Rogue", "Sentra"],
-  "Porsche": ["911", "Cayenne", "Macan", "Panamera", "Taycan"],
-  "Ram": ["1500", "2500", "3500", "ProMaster"],
-  "Subaru": ["Ascent", "Crosstrek", "Forester", "Impreza", "Legacy", "Outback", "WRX"],
-  "Tesla": ["Model 3", "Model S", "Model X", "Model Y"],
-  "Toyota": ["4Runner", "Camry", "Corolla", "Highlander", "RAV4", "Tacoma", "Tundra", "Prius", "bZ4X"],
-  "Volkswagen": ["Atlas", "Golf", "ID.4", "Jetta", "Passat", "Taos", "Tiguan"],
-  "Volvo": ["S60", "S90", "XC40", "XC60", "XC90"]
+  Acura: [
+    "ILX",
+    "MDX",
+    "RDX",
+    "TLX",
+    "NSX",
+    "Integra",
+    "ZDX"
+  ],
+  "Alfa Romeo": [
+    "Giulia",
+    "Stelvio",
+    "Tonale",
+    "4C",
+    "GTV",
+    "Spider"
+  ],
+  "Aston Martin": [
+    "DB11",
+    "DBS Superleggera",
+    "Vantage",
+    "DBX",
+    "Rapide"
+  ],
+  Audi: [
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "Q3",
+    "Q5",
+    "Q7",
+    "Q8",
+    "e-tron",
+    "TT",
+    "R8"
+  ],
+  BMW: [
+    "1 Series",
+    "2 Series",
+    "3 Series",
+    "4 Series",
+    "5 Series",
+    "7 Series",
+    "8 Series",
+    "X1",
+    "X2",
+    "X3",
+    "X4",
+    "X5",
+    "X6",
+    "X7",
+    "i3",
+    "i4",
+    "i7",
+    "iX"
+  ],
+  Bentley: [
+    "Bentayga",
+    "Continental GT",
+    "Flying Spur",
+    "Mulsanne"
+  ],
+  Buick: [
+    "Enclave",
+    "Encore",
+    "Encore GX",
+    "Envision",
+    "Regal"
+  ],
+  Cadillac: [
+    "CT4",
+    "CT5",
+    "Escalade",
+    "XT4",
+    "XT5",
+    "XT6",
+    "LYRIQ"
+  ],
+  Chevrolet: [
+    "Bolt EV",
+    "Bolt EUV",
+    "Camaro",
+    "Colorado",
+    "Corvette",
+    "Equinox",
+    "Malibu",
+    "Silverado",
+    "Suburban",
+    "Tahoe",
+    "Traverse",
+    "Trailblazer"
+  ],
+  Chrysler: [
+    "300",
+    "Pacifica",
+    "Voyager"
+  ],
+  Dodge: [
+    "Challenger",
+    "Charger",
+    "Durango",
+    "Hornet"
+  ],
+  Ferrari: [
+    "488 GTB",
+    "488 Spider",
+    "812 Superfast",
+    "Roma",
+    "Portofino",
+    "SF90 Stradale"
+  ],
+  Fiat: [
+    "500",
+    "500X",
+    "500L",
+    "124 Spider",
+    "Panda"
+  ],
+  Ford: [
+    "Bronco",
+    "Edge",
+    "Escape",
+    "Expedition",
+    "Explorer",
+    "F-150",
+    "Mustang",
+    "Ranger",
+    "Maverick",
+    "Transit",
+    "Mach-E"
+  ],
+  Genesis: [
+    "G70",
+    "G80",
+    "G90",
+    "GV70",
+    "GV80",
+    "GV60"
+  ],
+  GMC: [
+    "Acadia",
+    "Canyon",
+    "Savana",
+    "Sierra",
+    "Terrain",
+    "Yukon",
+    "Hummer EV"
+  ],
+  Honda: [
+    "Accord",
+    "Civic",
+    "CR-V",
+    "HR-V",
+    "Odyssey",
+    "Passport",
+    "Pilot",
+    "Ridgeline"
+  ],
+  Hyundai: [
+    "Accent",
+    "Elantra",
+    "Kona",
+    "Palisade",
+    "Santa Fe",
+    "Sonata",
+    "Tucson",
+    "IONIQ 5",
+    "IONIQ 6"
+  ],
+  Infiniti: [
+    "Q50",
+    "Q60",
+    "QX50",
+    "QX55",
+    "QX60",
+    "QX80"
+  ],
+  Jaguar: [
+    "E-PACE",
+    "F-PACE",
+    "F-TYPE",
+    "I-PACE",
+    "XE",
+    "XF"
+  ],
+  Jeep: [
+    "Cherokee",
+    "Compass",
+    "Gladiator",
+    "Grand Cherokee",
+    "Wrangler",
+    "Grand Wagoneer",
+    "Renegade"
+  ],
+  Kia: [
+    "Carnival",
+    "EV6",
+    "Forte",
+    "K5",
+    "Rio",
+    "Seltos",
+    "Sorento",
+    "Soul",
+    "Sportage",
+    "Stinger",
+    "Telluride"
+  ],
+  Lamborghini: [
+    "Aventador",
+    "Huracán",
+    "Urus",
+    "Revuelto"
+  ],
+  "Land Rover": [
+    "Defender",
+    "Discovery",
+    "Discovery Sport",
+    "Range Rover",
+    "Range Rover Sport",
+    "Range Rover Velar",
+    "Range Rover Evoque"
+  ],
+  Lexus: [
+    "ES",
+    "IS",
+    "LC",
+    "LS",
+    "NX",
+    "RX",
+    "UX",
+    "GX",
+    "LX",
+    "RZ"
+  ],
+  Lincoln: [
+    "Aviator",
+    "Corsair",
+    "Nautilus",
+    "Navigator"
+  ],
+  Lucid: [
+    "Air",
+    "Gravity"
+  ],
+  Maserati: [
+    "Ghibli",
+    "Levante",
+    "Quattroporte",
+    "MC20",
+    "GranTurismo"
+  ],
+  Mazda: [
+    "CX-3",
+    "CX-30",
+    "CX-5",
+    "CX-50",
+    "CX-9",
+    "MX-30",
+    "Mazda2",
+    "Mazda3",
+    "Mazda6",
+    "MX-5 Miata"
+  ],
+  McLaren: [
+    "570S",
+    "720S",
+    "765LT",
+    "GT",
+    "Artura"
+  ],
+  "Mercedes-Benz": [
+    "A-Class",
+    "B-Class",
+    "C-Class",
+    "E-Class",
+    "G-Class",
+    "GLA",
+    "GLB",
+    "GLC",
+    "GLE",
+    "GLS",
+    "S-Class",
+    "CLA",
+    "CLS",
+    "EQC",
+    "EQA",
+    "EQB",
+    "EQE",
+    "EQS"
+  ],
+  MINI: [
+    "Clubman",
+    "Convertible",
+    "Countryman",
+    "Hardtop"
+  ],
+  Mitsubishi: [
+    "Eclipse Cross",
+    "Mirage",
+    "Outlander",
+    "Outlander Sport"
+  ],
+  Nissan: [
+    "Altima",
+    "Ariya",
+    "Frontier",
+    "Kicks",
+    "Leaf",
+    "Maxima",
+    "Murano",
+    "Pathfinder",
+    "Rogue",
+    "Sentra",
+    "Versa",
+    "Z",
+    "GT-R"
+  ],
+  Polestar: [
+    "1",
+    "2",
+    "3"
+  ],
+  Porsche: [
+    "718 Boxster",
+    "718 Cayman",
+    "911",
+    "Cayenne",
+    "Macan",
+    "Panamera",
+    "Taycan"
+  ],
+  Ram: [
+    "1500",
+    "2500",
+    "3500",
+    "ProMaster"
+  ],
+  Rivian: [
+    "R1T",
+    "R1S"
+  ],
+  "Rolls-Royce": [
+    "Cullinan",
+    "Ghost",
+    "Phantom",
+    "Wraith",
+    "Dawn"
+  ],
+  Subaru: [
+    "Ascent",
+    "BRZ",
+    "Crosstrek",
+    "Forester",
+    "Impreza",
+    "Legacy",
+    "Outback",
+    "Solterra",
+    "WRX"
+  ],
+  Tesla: [
+    "Model 3",
+    "Model S",
+    "Model X",
+    "Model Y",
+    "Cybertruck"
+  ],
+  Toyota: [
+    "4Runner",
+    "86",
+    "Avalon",
+    "Camry",
+    "Corolla",
+    "C-HR",
+    "Crown",
+    "Highlander",
+    "Prius",
+    "RAV4",
+    "Sequoia",
+    "Sienna",
+    "Supra",
+    "Tacoma",
+    "Tundra",
+    "Venza",
+    "bZ4X"
+  ],
+  Volkswagen: [
+    "Arteon",
+    "Atlas",
+    "Golf",
+    "ID.4",
+    "ID.Buzz",
+    "Jetta",
+    "Passat",
+    "Taos",
+    "Tiguan"
+  ],
+  Volvo: [
+    "S60",
+    "S90",
+    "V60",
+    "V90",
+    "XC40",
+    "XC60",
+    "XC90",
+    "C40"
+  ]
 };
 
 interface FormData {
@@ -145,10 +565,50 @@ export default function QuoteForm() {
     }
   };
 
+  const fetcher = useFetcher<QuoteResponse>();
+  
+  // Track submission state
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Effect to handle fetcher state changes
+  useEffect(() => {
+    if (fetcher.state === 'submitting') {
+      setIsSubmitting(true);
+    } else if (fetcher.state === 'idle' && isSubmitting) {
+      setIsSubmitting(false);
+      
+      if (fetcher.data?.success) {
+        alert('Thank you! Your quote request has been submitted successfully. A copy has been sent to your email address and we will contact you shortly. (Note: If you don\'t receive an email confirmation, please check your spam folder)');
+        
+        // Reset form
+        setFormData({
+          from: '',
+          to: '',
+          date: '',
+          year: '',
+          make: '',
+          model: '',
+          operable: '',
+          name: '',
+          email: '',
+          phone: ''
+        });
+        setCurrentStep(1);
+      } else if (fetcher.data?.error) {
+        alert(`There was an error submitting your request: ${fetcher.data.error}`);
+      }
+    }
+  }, [fetcher.state, fetcher.data, isSubmitting]);
+
   const handleSubmit = () => {
     if (validateStep(3)) {
-      // Handle form submission
-      console.log('Form submitted:', formData);
+      console.log('Submitting form with data:', formData);
+      
+      // Use Remix's fetcher to submit the form
+      fetcher.submit(
+        { json: JSON.stringify(formData) },
+        { method: 'post', action: '/api/quote' }
+      );
     }
   };
 
