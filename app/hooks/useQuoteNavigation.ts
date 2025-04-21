@@ -1,14 +1,12 @@
-import { useLocation } from '@remix-run/react';
-import { useTransitionNavigation } from './useTransitionNavigation';
+import { useLocation, useNavigate } from '@remix-run/react';
 
 export function useQuoteNavigation() {
   const location = useLocation();
-  const handleTransitionNavigation = useTransitionNavigation();
+  const navigate = useNavigate();
 
-  const handleQuoteClick = async () => {
+  const handleQuoteClick = () => {
     if (location.pathname === '/') {
       // If we're on home page, smooth scroll to hero
-      // Add a delay to ensure component is mounted and transitions are complete
       setTimeout(() => {
         const heroElement = document.querySelector('#hero');
         const navbarElement = document.querySelector('nav');
@@ -25,10 +23,10 @@ export function useQuoteNavigation() {
           console.error('Hero element not found');
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-      }, 300);
+      }, 100); // Reduced delay since we don't have transitions
     } else {
-      // If we're on another page, use transition navigation to home
-      await handleTransitionNavigation('/');
+      // If we're on another page, navigate to home
+      navigate('/', { state: { scrollToHero: true } });
     }
   };
 

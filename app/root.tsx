@@ -10,16 +10,12 @@ import {
   useLocation,
   Location
 } from "@remix-run/react";
-import { TransitionProvider } from "./context/TransitionContext";
 import { useEffect } from "react";
-import { useTransitionNavigation } from "./hooks/useTransitionNavigation";
-import PageTransition from "./components/page-transition";
 import Navbar from "./components/navbar";
 import "~/styles/tailwind.css";
 import "~/styles/slick-overrides.css";
 import "~/styles/index.css";
 import "~/styles/navbar.css";
-import "~/styles/transitions.css";
 import "~/styles/datepicker.css";
 
 export const links: LinksFunction = () => [
@@ -86,9 +82,6 @@ export default function App() {
   const { navbar } = useLoaderData<typeof loader>() as LoaderData;
   const location = useLocation();
 
-  // Initialize transition navigation
-  useTransitionNavigation();
-
   useEffect(() => {
     const state = (location as Location & { state: { scrollToHero?: boolean } }).state;
     if (state?.scrollToHero) {
@@ -97,7 +90,7 @@ export default function App() {
         if (heroElement) {
           heroElement.scrollIntoView({ behavior: 'smooth' });
         }
-      }, 2200);
+      }, 500); // Reduced from 2200 since we don't have transitions anymore
 
       return () => clearTimeout(timer);
     }
@@ -112,12 +105,8 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <TransitionProvider>
-          {navbar && <Navbar {...navbar} />}
-          <PageTransition>
-            <Outlet />
-          </PageTransition>
-        </TransitionProvider>
+        {navbar && <Navbar {...navbar} />}
+        <Outlet />
         <ScrollRestoration />
         <Scripts />
       </body>
