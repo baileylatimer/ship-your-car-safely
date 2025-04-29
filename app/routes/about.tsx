@@ -37,6 +37,7 @@ export const loader: LoaderFunction = async () => {
     console.log('About Heading:', aboutHeading);
 
     const aboutVideoQuery = `*[_type == "aboutVideo"][0]{
+      title,
       "videoUrl": video.asset->url,
       coverImage
     }`;
@@ -112,6 +113,9 @@ export default function About() {
   const data = useLoaderData<typeof loader>();
   console.log('Loader Data:', data); // Debug log
   const { aboutHeading, aboutVideo, navbar, footer, infoAbout, imagesAbout, error } = data;
+  
+  // Create refs before any conditional returns
+  const headingRef = useTextAnimation(aboutHeading?.heading || '');
 
   if (error) {
     return <div className="text-[#17283D]">Error: {error}</div>;
@@ -127,17 +131,17 @@ export default function About() {
         logo={navbar.logo}
         phoneNumber={navbar.phoneNumber}
         phoneIcon={navbar.phoneIcon}
-        navLinks={navbar.links}
       />
       <div className="flex-grow">
         <div className="mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-48">
           <h1 
-            ref={useTextAnimation(aboutHeading.heading)}
+            ref={headingRef}
             className="text-h2-mobile md:text-h2 font-medium mb-16 text-[#17283D]"
           >
             {aboutHeading.heading}
           </h1>
           <AboutVideo 
+            title={aboutVideo.title}
             videoUrl={aboutVideo.videoUrl}
             coverImage={aboutVideo.coverImage}
           />

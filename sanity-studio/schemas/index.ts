@@ -29,6 +29,7 @@ export const schemaTypes = [
   aboutHeading,
   infoAbout,
   imagesAbout,
+  aboutVideo,
   supportHeader,
   faq
 ]

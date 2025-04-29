@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { urlFor } from '~/lib/sanity.image';
 
 interface AboutVideoProps {
+  title: string;
   videoUrl: string;
   coverImage: {
     _type: 'image';
@@ -27,7 +28,7 @@ const PlayButton = ({ size = 'small' }: { size?: 'small' | 'large' }) => (
   </svg>
 );
 
-export default function AboutVideo({ videoUrl, coverImage }: AboutVideoProps) {
+export default function AboutVideo({ title, videoUrl, coverImage }: AboutVideoProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -55,12 +56,25 @@ export default function AboutVideo({ videoUrl, coverImage }: AboutVideoProps) {
           }
         }}
       >
+        {/* Gradient overlay */}
+        <div 
+          className="absolute top-0 left-0 right-0 h-[184px] z-20 pointer-events-none"
+          style={{
+            background: 'linear-gradient(180deg, #17283D 0%, rgba(23, 40, 61, 0.00) 100%)'
+          }}
+        />
+
+        {/* Title and small play button */}
+        <div className="absolute top-8 left-8 z-30 flex items-center space-x-4 pointer-events-none">
+          <PlayButton />
+          <h3 className="text-h3-mobile md:text-h3 font-medium text-[#C8D6E6]">{title}</h3>
+        </div>
         {/* Cover image */}
         {!isPlaying && (
           <div className="absolute inset-0 z-[15]">
             <img
               src={urlFor(coverImage).width(1920).height(1080).url()}
-              alt="Video thumbnail"
+              alt={title}
               className="w-full h-full object-cover"
             />
             {/* Large centered play button */}
