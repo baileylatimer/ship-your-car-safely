@@ -57,8 +57,7 @@ export const loader: LoaderFunction = async () => {
     const faqQuery = `*[_type == "faq"][0]{
       "items": items[]{
         title,
-        description,
-        "image": image.asset->
+        description
       }
     }`;
 
@@ -86,6 +85,8 @@ export const loader: LoaderFunction = async () => {
 
 export default function Support() {
   const { supportHeader, navbar, footer, faq, error } = useLoaderData<typeof loader>();
+  // Define the ref at the top level of the component to avoid conditional hook calls
+  const headingRef = useTextAnimation(supportHeader?.heading || '');
 
   if (error) {
     return <div className="text-[#17283D]">Error: {error}</div>;
@@ -101,12 +102,11 @@ export default function Support() {
         logo={navbar.logo}
         phoneNumber={navbar.phoneNumber}
         phoneIcon={navbar.phoneIcon}
-        navLinks={navbar.links}
       />
       <div className="flex-grow">
         <div className="mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-48">
           <h1 
-            ref={useTextAnimation(supportHeader.heading)}
+            ref={headingRef}
             className="text-h2-mobile md:text-h2 font-medium mb-16 text-[#17283D]"
           >
             {supportHeader.heading}

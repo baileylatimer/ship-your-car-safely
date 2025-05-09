@@ -1,5 +1,4 @@
 import { useRef, useEffect, useState } from 'react'
-import { urlFor } from '~/lib/sanity.image'
 import type { FaqItem } from '~/types/sanity'
 
 interface FaqProps {
@@ -276,16 +275,8 @@ export default function Faq({ items }: FaqProps) {
             aria-labelledby={`faq-title-${index}`}
             className="overflow-hidden"
           >
-            <div className="pt-5 pb-5 flex md:flex-row flex-col items-start">
-              <p className="text-[18px] leading-normal text-[#17283D] flex-1">{item.description}</p>
-              <div className="w-full md:w-[240px] md:ml-8 mt-4 md:mt-0">
-                <img 
-                  src={urlFor(item.image).width(240).height(240).fit('crop').url()}
-                  alt=""
-                  role="presentation"
-                  className="w-[240px] h-[240px] object-cover rounded-[30px]"
-                />
-              </div>
+            <div className="pt-5 pb-5 lg:w-3/5">
+              <p className="text-[18px] leading-normal text-[#17283D] w-full">{item.description}</p>
             </div>
           </div>
         </div>

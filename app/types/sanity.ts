@@ -75,7 +75,6 @@ export interface InfoAbout {
 export interface FaqItem {
   title: string
   description: string
-  image: SanityImage
 }
 
 export interface Faq {
