@@ -66,7 +66,6 @@ export default function AboutVideo({ title, videoUrl, coverImage }: AboutVideoPr
 
         {/* Title and small play button */}
         <div className="absolute top-8 left-8 z-30 flex items-center space-x-4 pointer-events-none">
-          <PlayButton />
           <h3 className="text-h3-mobile md:text-h3 font-medium text-[#C8D6E6]">{title}</h3>
         </div>
         {/* Cover image */}
