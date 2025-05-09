@@ -17,6 +17,7 @@ import "~/styles/slick-overrides.css";
 import "~/styles/index.css";
 import "~/styles/navbar.css";
 import "~/styles/datepicker.css";
+import "~/styles/autocomplete.css";
 
 export const links: LinksFunction = () => [
   {
@@ -95,6 +96,44 @@ export default function App() {
       return () => clearTimeout(timer);
     }
   }, [location]);
+
+  // Load Google Maps Places API
+  useEffect(() => {
+    const loadScript = (src: string) =>
+      new Promise<void>((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = src;
+        script.async = true;
+        script.onload = () => resolve();
+        script.onerror = (error) => reject(error);
+        document.head.appendChild(script);
+      });
+
+    const init = async () => {
+      if (typeof window === 'undefined') return;
+
+      // Check if the Google Maps script is already loaded
+      const existing = document.querySelector(
+        'script[src*="maps.googleapis.com/maps/api/js"]'
+      );
+      
+      if (existing) {
+        console.log("Google Maps API already loaded, skipping re-load");
+        return;
+      }
+
+      try {
+        console.log("Loading Google Maps API...");
+        // Load the Google Maps API with Places library
+        await loadScript(`https://maps.googleapis.com/maps/api/js?key=AIzaSyCM67BQLG_tfodNdHUkOPwDghKHHRn9LbI&libraries=places&v=weekly`);
+        console.log("✅ Google Maps API loaded successfully");
+      } catch (error) {
+        console.error("❌ Failed to load Google Maps API", error);
+      }
+    };
+
+    init();
+  }, []);
 
   return (
     <html lang="en">

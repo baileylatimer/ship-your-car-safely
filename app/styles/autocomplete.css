@@ -1,0 +1,113 @@
+/* Google Maps Place Autocomplete Web Component Styling */
+
+/* Basic styling for the web component */
+gmpx-placeautocomplete {
+  --gmpx-font-family: inherit;
+  --gmpx-color-surface: transparent;
+  --gmpx-color-on-surface: #17283D;
+  --gmpx-color-primary: #17283D;
+  --gmpx-font-size: 1rem;
+  --gmpx-border-radius: 0;
+  --gmpx-horizontal-padding: 10px;
+  --gmpx-vertical-padding: 12px; 
+  width: 100%;
+  display: block;
+  min-height: 48px;
+}
+
+/* Style for the input element inside the web component */
+gmpx-placeautocomplete input {
+  width: 100%;
+  padding: 12px 10px 12px 40px; /* Match the padding with our SVG icon */
+  background: transparent;
+  border: none;
+  color: #17283D;
+  font-size: 1rem;
+  outline: none;
+  height: 48px;
+}
+
+/* Web Component dropdown container */
+gmpx-placeautocomplete-list-box {
+  z-index: 9999 !important;
+  border-radius: 0 0 18px 18px !important;
+  border: 1px solid #17283D !important;
+  border-top: none !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+/* Ensure the container aligns properly with input */
+.gmpx-container {
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+/* Dropdown styling */
+.gmpx-dropdown {
+  z-index: 9999 !important;
+  font-family: inherit !important;
+  border-radius: 0 0 18px 18px !important;
+  border: 1px solid #17283D !important;
+  border-top: none !important;
+  box-shadow: none !important;
+  margin-top: -1px !important;
+  background-color: white !important;
+}
+
+/* Individual dropdown items */
+.gmpx-dropdown-item {
+  padding: 8px 10px !important;
+  cursor: pointer !important;
+  font-size: 1rem !important;
+  color: #17283D !important;
+}
+
+.gmpx-dropdown-item:hover, 
+.gmpx-dropdown-item--selected,
+.gmpx-option[aria-selected="true"],
+.gmpx-option:hover {
+  background-color: rgba(200, 214, 230, 0.3) !important;
+}
+
+/* Hide Google's branding if possible */
+.gmpx-powered-by,
+.gmpx-attribution {
+  display: none !important;
+}
+
+/* Keep old styling for backward compatibility */
+.pac-container {
+  z-index: 9999 !important;
+  font-family: inherit;
+  border-radius: 0 0 18px 18px;
+  border: 1px solid #17283D;
+  border-top: none;
+  box-shadow: none;
+  margin-top: -1px; /* Connect to input */
+}
+
+.pac-item {
+  padding: 8px 10px;
+  font-size: 1rem;
+  color: #17283D;
+  cursor: pointer;
+}
+
+.pac-item:hover, .pac-item-selected {
+  background-color: rgba(200, 214, 230, 0.3);
+}
+
+.pac-icon, .pac-icon-marker {
+  display: none; /* Remove Google's icons to match our design */
+}
+
+.pac-item-query {
+  font-size: inherit;
+  color: inherit;
+}
+
+/* Hide Google's powered by logo - optional but cleaner UI */
+.pac-logo:after {
+  display: none;
+}
